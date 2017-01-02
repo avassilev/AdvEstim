@@ -422,7 +422,7 @@ $\boldsymbol{\theta_2}$ and $\mathbf{x}$.
 \item Then, the optimal point estimate would be the one that minimizes the expectation of the loss function: \begin{equation}
 \label{ExpLoss}
 \boldsymbol{\hat{\theta^*}}=\min_{\boldsymbol{\hat{\theta}}}\mathbb{E}[L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})]=\min_{\boldsymbol{\hat{\theta}}}\int_{R_{\boldsymbol{\theta}}}
-L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})f(\boldsymbol{\theta}|\mathbf{x})
+L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})f(\boldsymbol{\theta}|\mathbf{x})\,
 d\boldsymbol{\theta}.
 \end{equation} 
 \item The expected loss function is called \emph{risk} or \emph{risk function}.
@@ -498,11 +498,136 @@ where the second term in the last equality is not stochastic and can be taken ou
 \item Sometimes we are interested in the marginal density of the observations $f(\mathbf{x})$.
 \item These can be derived as follows:
 \begin{equation}
-\label{eq:MargObs}f(\mathbf{x})=\int_{R_{\boldsymbol{\theta}}}f(\boldsymbol{\theta},\mathbf{x})d\boldsymbol{\theta}=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{x}|\boldsymbol{\theta})f(\boldsymbol{\theta})d\boldsymbol{\theta}.
+\label{eq:MargObs}f(\mathbf{x})=\int_{R_{\boldsymbol{\theta}}}f(\boldsymbol{\theta},\mathbf{x})\,d\boldsymbol{\theta}=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{x}|\boldsymbol{\theta})f(\boldsymbol{\theta})\,d\boldsymbol{\theta}.
 \end{equation}
 \item The expression after the second equality sign in \eqref{eq:MargObs} means that the marginal density can be viewed as averaging the likelihood function by using the prior density as a weighting function.
 \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Predictive probability density functions}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item One important issue arising in a forecasting context is that of the distribution of still unobserved events $\mathbf{\tilde{x}}$.
+\item To answer that, we consider the joint density of the unobserved data $\mathbf{\tilde{x}}$ and the parameters $\boldsymbol{\theta}$, given already observed data $\mathbf{x}$:
+\begin{equation}
+\label{eq:JntData}
+f(\mathbf{\tilde{x}},\boldsymbol{\theta}|\mathbf{x})=f(\mathbf{\tilde{x}}|\boldsymbol{\theta},\mathbf{x})f(\boldsymbol{\theta}|\mathbf{x}).
+\end{equation}
+\item The predictive density of $\mathbf{\tilde{x}}$ conditional on $\mathbf{x}$ can be obtained after integrating \eqref{eq:JntData} w.r.t. $\boldsymbol{\theta}$:
+\begin{equation}
+\label{eq:MargForec}
+f(\mathbf{\tilde{x}}|\mathbf{x})=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{\tilde{x}},\boldsymbol{\theta}|\mathbf{x})\,d\boldsymbol{\theta}=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{\tilde{x}}|\boldsymbol{\theta},\mathbf{x})f(\boldsymbol{\theta}|\mathbf{x})\,d\boldsymbol{\theta}.
+\end{equation}
+\item The last expression in \eqref{eq:MargForec} means that the predictive density can be interpreted as averaging the conditional predictive density with the posterior used as a weighting function.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Point prediction}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item The predictive density $f(\mathbf{\tilde{x}}|\mathbf{x})$ can be used to produce point forecasts just like the posterior is used to produce point estimates.
+\item The principle is the same as for point estimates of parameters.
+\item To produce a point prediction $\mathbf{\hat{x}}$ for the yet unobserved data $\mathbf{\tilde{x}}$, we need a loss function $L(\mathbf{\tilde{x}},\mathbf{\hat{x}})$.
+\item We then construct the risk function and minimize it w.r.t. $\mathbf{\hat{x}}$:
+\begin{equation}
+\label{eq:PointForec}
+\min_{\mathbf{\hat{x}}}\int_{R_{\mathbf{\tilde{x}}}}L(\mathbf{\tilde{x}},\mathbf{\hat{x}})f(\mathbf{\tilde{x}}|\mathbf{x})d\mathbf{\tilde{x}},
+\end{equation}
+where $R_{\mathbf{\tilde{x}}}$ is the set of possible values of $\mathbf{\tilde{x}}$.
+\item The solution to \eqref{eq:PointForec}, if it exists, is the optimal point prediction for $\mathbf{\tilde{x}}$.
+\item We can establish counterparts to point estimate results on the mean, median etc. corresponding to specific loss functions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Prediction regions}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item Given a predictive density $f(\mathbf{\tilde{x}}|\mathbf{x})$, we can compute the probability that future observations $\mathbf{\tilde{x}}$ belong to a given subset $\bar{R}$ of their domain:
+\begin{equation}
+\label{eq:CredRegForec}
+P(\mathbf{\tilde{x}}\in \bar{R}|\mathbf{x}) = \int_{\bar{R}}f(\mathbf{\tilde{x}}|\mathbf{x})\,d\mathbf{\tilde{x}}.
+\end{equation}
+\item Similarly to credible regions, we can also study the inverse problem, where we seek a region $\bar{R}$ satisfying \eqref{eq:CredRegForec} -- a \emph{prediction region} -- for a given probability $P(\mathbf{\tilde{x}}\in \bar{R}|\mathbf{x})$.
+\item Uniqueness generally cannot be guaranteed in this case but we can develop the concept of a ``highest predictive density'' region along the lines of highest posterior density regions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Bayesian hypothesis testing}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item In a Bayesian context, hypothesis testing is a comparison of equally standing alternatives. This stands in contrast to the classical treatment, where the null hypothesis is the object of special interest.
+\item In general, we study statements $H_0$ and $H_1$ relating to different models $M_0$ and $M_1$, given data $\mathbf{x}$. 
+\item For a model $M_i,~i=0,1,$ the respective likelihood function is $f_i(\mathbf{x}|\boldsymbol{\theta_i})$, while the prior is $f_i(\boldsymbol{\theta_i})$.
+\item The subscripts $i$ in the likelihoods and the priors indicate that it is possible to compare hypotheses for different data generating mechanisms and different priors.
+\item It is still possible to analyse simpler cases, e.g. when the parameters $\boldsymbol{\theta_0}$ and $\boldsymbol{\theta_1}$, corresponding to hypotheses $H_0$ and $H_1$, take values in different domains of the same parametric space. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Bayesian hypothesis testing}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item If the true model is model $M_i$, the marginal density of the data (\emph{marginal likelihood function}) is 
+\begin{equation}
+\label{eq:MargLik}
+f(\mathbf{x}|M_i)=\int_{R_{\boldsymbol{\theta_i}}}f_i(\mathbf{x}|\boldsymbol{\theta_i})f_i(\boldsymbol{\theta_i})\,d\boldsymbol{\theta_i}.
+\end{equation}
+\item Then, a \emph{Bayes factor} is defined as the ratio of the marginal likelihood functions for the two models:
+\begin{equation}
+\label{eq:BayesFactor}B_{01}(\mathbf{x}):=\frac{f(\mathbf{x}|M_0)}{f(\mathbf{x}|M_1)}.
+\end{equation}
+\item A Bayes factor greater than 1 can be interpreted as evidence that $M_0$ (or, respectively, hypothesis $H_0$) is more plausible compared to model $M_1$ (hypothesis $H_1$).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Bayesian hypothesis testing}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item It is also possible to have prior probabilities on the models themselves and take these probabilities into account when testing hypotheses. 
+\item If $P(M_i)$ is the prior probability of model $M_i$, then we can calculate the posterior probability of this model given the data $\mathbf{x}$ using Bayes' formula:
+\begin{equation}
+\label{eq:ModelPost}P(M_i|\mathbf{x})=\frac{P(M_i)f(\mathbf{x}|M_i)}{\sum_{j=0}^{1}P(M_j)f(\mathbf{x}|M_j)}.
+\end{equation}
+\item The \emph{posterior odds} of model $M_0$ compared to model $M_1$ is defined as the ratio of the posterior probabilities of the two models:
+\begin{equation}
+\label{eq:PostOdds}K_{01}(\mathbf{x}):=\frac{P(M_0|\mathbf{x})}{P(M_1|\mathbf{x})}=\frac{P(M_0)}{P(M_1)}\times
+\frac{f(\mathbf{x}|M_0)}{f(\mathbf{x}|M_1)}=\frac{P(M_0)}{P(M_1)}B_{01}(\mathbf{x}).
+\end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Bayesian hypothesis testing}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item Equation \eqref{eq:PostOdds} illustrates why the quantity $B_{01}(\mathbf{x})$ is called a Bayes factor: it is the quantity that multiplies the \emph{prior odds} $P(M_0)/P(M_1)$ to adjust it with information coming from the data and thus obtain the posterior odds. In other words, the Bayes factor tells us whether the data increase or decrease the plausibility of one model compared to another.
+\item The above considerations were framed in terms of model comparison but they can equally be applied to hypothesis testing.
+\item Thus, if we have the posterior odds $K_{01}(\mathbf{x})$ needed to compare hypothesis $H_0$ to $H_1$, we can use it to decide which hypothesis is more plausible.
+\item In the absence of prior information in favour of one hypothesis, the hypotheses can be viewed as equally likely and the prior odds can be taken to be 1. Then the posterior odds is equal to the Bayes factor and $B_{01}(\mathbf{x})$ suffices to choose between the hypotheses tested.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Bayesian hypothesis testing}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item If we focus on accepting or rejecting hypothesis $H_0$ in favour of $H_1$, then using only the posterior odds -- for instance, by applying rules such as ``Accept $H_0$ if $K_{01}(\mathbf{x})\geq 1$, else reject $H_0$.'' -- is a relatively blunt decision-making tool.
+\item In such cases, it is recommended to work in a decision-theoretic framework by introducing an explicit loss function $L(H_i,\hat{H}_j)$, where $H_i$ is the true situation and $\hat{H}_j$ is the hypothesis accepted by the researcher.
+\item  We can then compute the risk associated with accepting  $\hat{H}_j$ and choose the risk-minimizing hypothesis $\hat{H}_j$.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
 
 
 
@@ -536,140 +661,16 @@ Gary Koop. \emph{Bayesian Econometrics}. 2003. Wiley.
 
 
 
-\subsection{Прогнозни плътности на разпределения}
 
-При разглеждането на задачи за прогнозиране в бейсов контекст един
-от важните въпроси е какво е разпределението на още ненаблюдавани
-събития $\mathbf{\tilde{x}}$. Разглеждаме съвместната плътност на
-нерегистрираните данни $\mathbf{\tilde{x}}$ и параметрите
-$\boldsymbol{\theta}$ при условие вече наблюдаваните данни $\mathbf{x}$:
-\beq \label{JntData}
-f(\mathbf{\tilde{x}},\boldsymbol{\theta}|\mathbf{x})=f(\mathbf{\tilde{x}}|\boldsymbol{\theta},\mathbf{x})f(\boldsymbol{\theta}|\mathbf{x}).
-\eeq Тогава прогнозната плътност на $\mathbf{\tilde{x}}$ при
-условие $\mathbf{x}$ се получава след интегриране в
-\eqref{JntData} по $\boldsymbol{\theta}$: \beq \label{MargForec}
-f(\mathbf{\tilde{x}}|\mathbf{x})=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{\tilde{x}},\boldsymbol{\theta}|\mathbf{x})d\boldsymbol{\theta}=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{\tilde{x}}|\boldsymbol{\theta},\mathbf{x})f(\boldsymbol{\theta}|\mathbf{x})d\boldsymbol{\theta}.
-\eeq Последният израз в \eqref{MargForec} означава, че прогнозната
-плътност може да се интерпретира и като математическото очакване
-на условната прогнозна плътност по отношение на апостериорната
-плътност.
 
-\subsection{Точкови прогнози}
 
-Получената в предишната секция прогнозна плътност
-$f(\mathbf{\tilde{x}}|\mathbf{x})$ може да се използва, за да
-бъдат направени точкови прогнози за бъдещи данни. Принципът на
-получаване е същият, както за точковите оценки. Ако
-$\mathbf{\hat{x}}$ е точковата прогноза за ненаблюдаваните данни
-$\mathbf{\tilde{x}}$, то е необходима функция на загубите
-$L(\mathbf{\tilde{x}},\mathbf{\hat{x}})$, с помощта на която можем
-да запишем функция на риска и да минимизираме последната по
-$\mathbf{\hat{x}}$ т.е. \beq \label{PointForec}
-\min_{\mathbf{\hat{x}}}\int_{R_{\mathbf{\tilde{x}}}}L(\mathbf{\tilde{x}},\mathbf{\hat{x}})f(\mathbf{\tilde{x}}|\mathbf{x})d\mathbf{\tilde{x}}.
-\eeq Тук $R_{\mathbf{\tilde{x}}}$ означава областта на изменение
-на $\mathbf{\tilde{x}}$. Решението на \eqref{PointForec}, ако
-съществува, се явява оптимална точкова прогноза за
-$\mathbf{\tilde{x}}$. И в този случай важат изводите за типа
-точкови прогнози, получавани при определен вид функция на
-загубите: очакването на $f(\mathbf{\tilde{x}}|\mathbf{x})$ за
-квадратична функция на загубите, медианата за абсолютна грешка и
-т.н.
 
-\subsection{Прогнозни области}
 
-Ако имаме прогнозната плътност $f(\mathbf{\tilde{x}}|\mathbf{x})$,
-бихме могли да изчислим вероятността бъдещите наблюдения
-$\mathbf{\tilde{x}}$ да попаднат в дадена подобласт $\bar{R}$ на
-областта им на изменение: \beq
-\label{CredRegForec}P(\mathbf{\tilde{x}}\in
-\bar{R}|\mathbf{x})=\int_{\bar{R}}f(\mathbf{\tilde{x}}|\mathbf{x})d\mathbf{\tilde{x}}.
-\eeq Съвсем аналогично на областите на достоверност, разгледани в
-секция \ref{BayesRegion}, можем да решаваме и обратната задача,
-при която за зададена вероятност $P(\mathbf{\tilde{x}}\in
-\bar{R}|\mathbf{x})$ се търси област $\bar{R}$ (\emph{прогнозна
-област}), която удовлетворява \eqref{CredRegForec}. И в този
-случай единствеността на такава област не е гарантирана изобщо, но
-ако прогнозната плътност $f(\mathbf{\tilde{x}}|\mathbf{x})$ е
-унимодална и допълнително наложим изискването за област с
-,,максимална прогнозна плътност'', можем да получим единствена
-прогнозна област.
 
-\subsection{Бейсова проверка на хипотези}
 
-В контекста на бейсовата статистика проверката на хипотези
-представлява вероятностно сравняване на \emph{равнопоставени}
-алтернативи, поради което понятието за нулева хипотеза няма
-особеното значение, което му се придава в класическите
-изследвания. В общия случай разглеждаме твърдения $H_0$ и $H_1$,
-които се отнасят до различни модели $M_0$ и $M_1$ за данните
-$\mathbf{x}$. За модел $M_i,~i=1,2,$ съответната функция на
-правдоподобие е $f_i(\mathbf{x}|\boldsymbol{\theta_i})$, а априорната
-плътност е $f_i(\boldsymbol{\theta_i})$. Тук долните индекси $i$ в
-правдоподобията и априорните плътности са използвани, за да
-отчетем възможността да се сравняват хипотези за различни
-механизми на генериране на данните, съответно с различни априорни
-очаквания. Това не изключва възможността да се разглеждат
-по-прости случаи, например когато параметрите $\boldsymbol{\theta_0}$ и
-$\boldsymbol{\theta_1}$, в съответствие с хипотези $H_0$ и $H_1$ се
-изменят в различни области на едно и също параметрично
-пространство.
 
-При условие, че е верен модел $M_i$, маргиналната плътност на
-данните (\emph{маргинална функция на правдоподобие}) е \beq
-\label{MargLik}
-f(\mathbf{x}|M_i)=\int_{R_{\boldsymbol{\theta_i}}}f_i(\mathbf{x}|\boldsymbol{\theta_i})f_i(\boldsymbol{\theta_i})d\boldsymbol{\theta_i}.\eeq
 
-Тогава \emph{множител на Бейс} се дефинира като отношението между
-маргиналните функции на правдоподобие за двата модела: \beq
-\label{BayesFactor}B_{01}(\mathbf{x})=\frac{f(\mathbf{x}|M_0)}{f(\mathbf{x}|M_1)}.\eeq
-Интуитивно множител на Бейс, който е по-голям от 1, може да се
-интерпретира като индикация за по-голяма достоверност на модел
-$M_0$ (или съответно $H_0$) в сравнение с $M_1$ $(H_1)$.
 
-При анализ в бейсова схема може да има априорна информация и за
-достоверността на самите модели, която да се отчете при
-сравняването на хипотезите. Ако $P(M_i)$ е априорната вероятност
-на модел $M_i$, то можем да изчислим апостериорната вероятност на
-на този модел при условие данните $\mathbf{x}$ с помощта на
-формулата на Бейс: \beq
-\label{ModelPost}P(M_i|\mathbf{x})=\frac{P(M_i)f(\mathbf{x}|M_i)}{\sum_{j=0}^{1}P(M_j)f(\mathbf{x}|M_j)}.
-\eeq Тогава \emph{апостериорният шанс} в полза на модел $M_0$
-сравнен с $M_1$ се дефинира като отношението на апостериорните
-вероятности на двата модела: \beq
-\label{PostOdds}K_{01}(\mathbf{x})=\frac{P(M_0|\mathbf{x})}{P(M_1|\mathbf{x})}=\frac{P(M_0)}{P(M_1)}\times
-\frac{f(\mathbf{x}|M_0)}{f(\mathbf{x}|M_1)}=\frac{P(M_0)}{P(M_1)}B_{01}(\mathbf{x}).
-\eeq Уравнение \eqref{PostOdds} показва защо $B_{01}(\mathbf{x})$
-се нарича множител на Бейс: това е величината, с която умножаваме
-\emph{априорния шанс} $P(M_0)/P(M_1)$, за да го коригираме с
-информацията от данните и да стигнем до апостериорния шанс. С
-други думи, множителят на Бейс показва дали наблюдаваните данни
-увеличават или намаляват достоверността на единия модел в
-сравнение с другия.
-
-Макар че горните разглеждания бяха дадени в термините на
-сравняване на модели, те се пренасят без изменения и за случая на
-сравняване на хипотези. Това означава, че ако сме изчислили
-апостериорния шанс $K_{01}(\mathbf{x})$ при сравняване на хипотеза
-$H_0$ с $H_1$, с негова помощ можем да определим коя хипотеза е
-по-вероятна. При отсъствието на априорна информация в полза на
-едната от двете хипотези, те могат да се разглеждат като
-равновероятни и съответно априорният шанс е единица. Тогава
-апостериорният шанс става равен на множителя на Бейс и
-$B_{01}(\mathbf{x})$ е достатъчен, за да се направи извод за
-сравняваните хипотези.
-
-Ако задачата е в явен вид да се приеме или отхвърли хипотезата
-$H_0$ в сравнение с $H_1$, използването само на апостериорния
-шанс\footnote{Например като се прилагат правила от типа ,,Ако
-$K_{01}(\mathbf{x})\geq 1$ приемаме $H_0$, в противен случай
-отхвърляме $H_0$.''} е относително непрецизно средство за вземане
-на решение. В такива случаи се препоръчва да се работи от гледна
-точка на теорията за вземане на решения, като се запише в явен вид
-функция на загубите $L(H_i,\hat{H}_j)$, където $H_i$ е истинското
-състояние, а $\hat{H}_j$ е приетата от изследователя хипотеза.
-След това можем да изчислим очакването на функцията на загубите
-при условие, че е взето решение $\hat{H}_j$ и да приемем онова
-$\hat{H}_j$, за което съответната очаквана загуба е най-малка.
 
 \subsection{Някои общи бележки върху бейсовите методи}
 
