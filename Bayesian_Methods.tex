@@ -93,11 +93,11 @@
 \item Consider a sample of iid observations $x_1,\ldots,x_n$ coming from a random variable $\xi \sim N(\mu,\sigma^2)$.
 \item We are interested in obtaining an estimate of the mean.
 \item A standard approach would be to use the method of maximum likelihood (MML).
-\item We construct the likelihood function:
+\item We construct the likelihood function (recall the convention to write it as if conditioning on the data):
 \begin{equation}
 \label{eq:NormLik}
 \begin{split}
-L(x_1,\ldots,x_n|\mu,\sigma^2)= & \prod_{i=1}^{n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\frac{(x_i-\mu)^2}{\sigma^2}}\\
+L(\mu,\sigma^2|x_1,\ldots,x_n)= & \prod_{i=1}^{n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\frac{(x_i-\mu)^2}{\sigma^2}}\\
 = & \left(
 \frac{1}{2\pi\sigma^2}
 \right)^{n/2}e^{-\frac{1}{2}\sum_{i=1}^{n}\frac{(x_i-\mu)^2}{\sigma^2}}.
@@ -134,374 +134,407 @@ L(x_1,\ldots,x_n|\mu,\sigma^2)= & \prod_{i=1}^{n}\frac{1}{\sqrt{2\pi}\sigma}e^{-
 \frametitle{Subjective probability}
 \begin{itemize}\itemsep1em
 \item The idea of probability is often used in contexts where the classical interpretation as the limit of the relative frequency is not applicable.
-\item Consider a person making the following statement: \begin{quote}
+\item Consider a person making the following statement: 
+\begin{quote}
 The probability that there is life on Mars is 1/1000000.
 \end{quote}
 \item What is this person trying to say?
 	\begin{itemize}\itemsep1em
-	\item 
-	\item 
+	\item If we could repeatedly try to find life on Mars, this would occur on average once in a million attempts?
+	\item If we could recreate the universe over and over, the planet Mars would materialize and there would be life on it once in a million runs?
 	\end{itemize}
+\item \alert{The term ``probability'' in this context is used as a measure of the \emph{subjective} degree of certainty in the correctness of a statement.}
 \end{itemize}
 \end{frame}
 
-\end{section}
-
-
-
-\begin{frame}[fragile]
-\frametitle{Readings}
-Additional readings:\bigskip
-
-
+\begin{frame}
+\frametitle{Subjective probability}
+\begin{itemize}\itemsep0.7em
+\item ``Probability'' in the above sense can be interpreted as a way to define a fair bet.
+\item Take the statement \begin{quote}
+The probability that team A will win the game against team B is 2/5.
+\end{quote}
+\item This can be construed to mean that the person making the statement considers it fair if he has to pay 2 dollars to enter a bet paying back 5 dollars if team A wins.
+\item The is related to the concept of \emph{odds}. If the probability of an event is  $\frac{m}{m+n}$, then the associated odds would be $m:n$ ($m$ to $n$).
+\item Thus, I'm willing to bet $ m $ dollars to get a profit of $ n $ dollars (recover the initial $ m $ and get additional $ n $ dollars) and I think neither side of the bet is getting an unfair advantage.
+\item Clearly, subjective assessments of probability can differ in this context.
+\end{itemize}
 \end{frame}
 
-\end{document}
+\begin{frame}
+\frametitle{Axiomatic foundations of subjective probability}
+\begin{itemize}\itemsep0.7em
+\item The above considerations may seem informal but they turn out to be consistent with a formal definition of probability.
+\item Given a measurable space $(\Omega,\mathcal{F})$ and a relation $\preceq$ over the elements of the $\sigma$-algebra $\mathcal{F}$ having particular properties, it can be shown that the relation $\preceq$ induces a probability measure $P$ on the space $(\Omega,\mathcal{F})$.
+\item The ``particular properties'' are basically a formal way of expressing the idea that one event is ``more likely'' or ``more plausible'' than another.
+\item The relation is called \emph{relative likelihood}.
+\item The corresponding probability measure is known as \emph{subjective probability}.
+\end{itemize}
+\end{frame}
 
+\begin{frame}
+\frametitle{Two interpretations of probability}
+\begin{itemize}\itemsep1em
+\item To summarise, the notion of probability can be used in (at least) two contexts:
+	\begin{itemize}\itemsep1em
+	\item To measure how likely a particular outcome of an ``experiment'' is. This encompasses all sorts of situations whose outcomes can be considered objective: coin tosses, recording data with some degree of imprecision (measurement error) etc.
+	\item To measure the personal degree of certainty or conviction about something. This is by definition subjective and assessments about one and the same event can (will!) differ between different people. 
+	\end{itemize}
+\item With some simplification, objective probability can be thought of as applicable to the modelling of data generation processes with a stochastic element, while subjective probability is applicable to situations where we need to quantify our personal certainty (or ignorance) about something.
+\end{itemize}
+\end{frame}
 
+\begin{frame}
+\frametitle{Subjective probability in a statistical context}
+\begin{itemize}\itemsep1em
+\item As a consequence of the above, a probability distribution can be used to measure our degree of uncertainty about the precise value of a numerical variable.
+\item This is applicable to unknown parameters that are to be estimated from data.
+\item In our example of estimating the mean $ \mu $ of the normally distributed random variable, taking a subjective probability point of view, it would be perfectly acceptable to treat $ \mu $ as a random variable with certain properties.
+\item This would merely be a way to formalize our degree of knowledge about $ \mu $ and is therefore applicable even in situations when we know that $ \mu $ is in fact a (unknown) constant.
+\end{itemize}
+\end{frame}
 
-\subsection{Субективна вероятност}
+\begin{frame}
+\frametitle{The Bayesian approach}
+\begin{itemize}\itemsep1em
+\item Since both the objective and the subjective notions of probability ultimately lead to the same mathematical object, we can also combine them, provided that this combination has a meaningful interpretation. \pause
+\item We can treat the available data as generated by an appropriate stochastic mechanism.
+\item We can also treat model parameters as random if we agree to work with a subjectivist interpretation of probability.
+\item This allows us to combine the sample $\mathbf{x}=(x_1,\ldots,x_n)$ and the parameters in a joint probability distribution (or density, in appropriate contexts).
+\item In our example, the joint density would involve $\mathbf{x}$ and
+$\mu$: $f(\mathbf{x},\mu)$. (It would also depend on $ \sigma^2 $ but we omit that for simplicity.)
+\end{itemize}
+\end{frame}
 
-Често пъти обаче понятието ,,вероятност'' се употребва в ситуации,
-в които интерпретацията му като теоретична граница на емпиричната
-честота на сбъдване на дадено събитие е явно некоректна. Например
-когато човек изказва твърдение от вида ,,Вероятността на Марс да
-има живот е 1/1000000.'' очевидно не се има предвид нито че при
-многократни опити за откриване на живот на Марс такъв ще бъде
-откриван средно веднъж на милион опита, нито че ако можеше да
-възпроизвеждаме възникването на Вселената безброй много пъти,
-отношението на броя реализации, когато на Марс е възникнал живот
-към общия брой реализации щеше да клони към 1/1000000. В случая
-понятието ,,вероятност'' се използва като измерител за
-\emph{субективната} степен на сигурност в правилността на дадено
-твърдение. За да подчертаем субективността на понятието
-,,вероятност'' при тази употреба на думата, ще отбележим, че така
-посочената вероятност може да се разглежда като начин да се измери
-справедливата цена на облог за сбъдването на дадено събитие. Ако
-вземем изказването ,,Вероятността отбор А да спечели предстоящата
-среща с отбор Б е 2/5.'', то може да се разглежда и като
-заявление, че съответният човек смята, че за никоя страна няма да
-има нечестно предимство, ако той плати 2 лева, за да участва в
-залагане, което ще му донесе 5 лева при положение, че отбор А
-наистина спечели\footnote{В този случай вероятността е свързана с
-понятието ,,шанс''. Ако смятаме, че вероятността за сбъдването на
-дадено събитие е $\frac{m}{m+n}$, то свързаният с тази вероятност
-шанс е $m:n$ ($m$ към $n$), което може да се интерпретира като
-склонност да се заложат $m$ парични единици, за да бъде получена
-печалба от $n$ парични единици при сбъдване на съответното събитие
-(т.е. да бъдат възстановени заложените $m$ единици и да бъдат
-изплатени $n$ допълнително), при това без една от страните да е
-облагодетелствана от условията на облога.}. При това положение е
-ясно, че е напълно възможно двама души да имат различни субективни
-вероятности за сбъдването на дадено събитие, съответно да са
-готови да заложат различни суми за това.
+\begin{frame}
+\frametitle{The Bayesian approach}
+\begin{itemize}\itemsep1em
+\item This approach allows us to formalize parameter uncertainty but cannot magically help with getting more data or re-running the data generation process.
+\item Since in many practical situations the sample $\mathbf{x}$ is fixed and getting more data is difficult or impossible, the object of interest is actually the conditional density of the parameter(s) given available data, i.e. $f(\mu|\mathbf{x})$.
+\item The density $f(\mu|\mathbf{x})$ can be obtained by means of Bayes' formula for probability density functions, hence the term Bayesian approach:
+\begin{equation}
+\label{eq:Bayesformula}
+f(\mu|\mathbf{x})=\frac{f(\mathbf{x},\mu)}{f(\mathbf{x})}=\frac{f(\mathbf{x}|\mu)f(\mu)}{f(\mathbf{x})}.
+\end{equation}
+\end{itemize}
+\end{frame}
 
-Интересно е, че последната употреба на понятието ,,вероятност'',
-макар и да изглежда нестрога и слабо свързана с теорията на
-вероятностите, всъщност не противоречи на построенията, правени
-при математическото изграждане на вероятността и следствията от
-нея. Може да се покаже, че при зададено измеримо пространство
-$(\Omega,\mathcal{F})$ и наредба $\preceq$ върху елементите на
-$\sigma$-алгебрата $\mathcal{F}$ с определени свойства, наредбата
-$\preceq$ поражда вероятностна мярка $P$ върху пространството
-$(\Omega,\mathcal{F})$. Наредбата $\preceq$ се нарича
-\emph{наредба на относително правдоподобие} и нарежда събитията от
-$\mathcal{F}$ на основата на това дали са с различна или еднаква
-достоверност. Вероятностната мярка $P$, породена от такава
-наредба, обикновено се нарича \emph{субективна вероятност}.
+\begin{frame}
+\frametitle{The Bayesian approach}
+\begin{itemize}\itemsep1em
+\item The density $ f(\mathbf{x}|\mu) $ is the \emph{likelihood} function for the model. It reflects the data generation mechanism and thus captures the ``objective'' component of the density $f(\mu|\mathbf{x})$.
+\item The density $ f(\mu) $ is called the \emph{prior} density. It is formed on the basis of information outside the model (prior to observing the data) and can incorporate a variety of factors like:
+	\begin{itemize}\itemsep1em
+	\item theoretical considerations
+	\item results from previous studies and experiments
+	\item subjective judgement on what is reasonable
+	\item the modeller's uncertainty about the parameters
+	\end{itemize}
+\item While the prior corresponds to the ``subjective'' component of the density $f(\mu|\mathbf{x})$, the above factors show that it need not be \emph{ad hoc} or arbitrary but can rigorously incorporate additionally available information.
+\end{itemize}
+\end{frame}
 
-При това положение едно вероятностно разпределение може да се
-разглежда и като средство за измерване на степента на сигурност
-или несигурност по отношение на стойностите на дадена числова
-величина. Последното важи и за нашата задача за оценяване на
-неизвестната средна $\mu$ на нормалното разпределение. Ако
-разглежданията се правят в контекста на субективната вероятност,
-съвсем приемливо е да считаме $\mu$ за случайна величина и да се
-опитаме да намерим вероятностните \'и характеристики. Използването
-на подобен подход разбира се няма нищо общо с обективните свойства
-на параметъра $\mu$, за който може да е гарантирано, например от
-физически съображения, че е (неизвестна) константа, а не случайна
-величина.
+\begin{frame}
+\frametitle{The Bayesian approach}
+\begin{itemize}\itemsep1em
+\item The density $f(\mu|\mathbf{x})$ is called the \emph{posterior} density. It combines information coming from the data via the likelihood with additional information coming from the prior.
+\item For a given sample the last component of formula \eqref{eq:Bayesformula} -- the density $f(\mathbf{x})$ -- is a constant and does not affect the computations substantively but acts only as a scaling factor. For that reason, formula \eqref{eq:Bayesformula} is often written as
+\begin{equation}
+\label{eq:BayesProportional}f(\mu|\mathbf{x})\propto
+f(\mathbf{x}|\mu)f(\mu),
+\end{equation}where $\propto$ denotes proportionality.
+\item Sometimes the expression on the right-hand side of $ \propto $ in \eqref{eq:BayesProportional} is called the \emph{kernel} of the posterior density.
+\item The above construction obviously does not depend on the dimension of $ \mu $ and will remain valid in a multidimensional setting.
+\end{itemize}
+\end{frame}
 
-\subsection{Същност на бейсовия подход}
+\begin{frame}[fragile]
+\frametitle{Interpretations of Bayes' formula}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item We can interpret \eqref{eq:BayesProportional} as a mechanism to update an initial body of information in light of new empirical evidence (data).
+\item Alternatively, \eqref{eq:BayesProportional} can be interpreted as a mechanism to inform empirical analysis by introducing already available information.
+\item In any case this presents the issue of how information is encoded in a prior distribution.
+\item At a minimum, this is done by choosing a distribution with appropriate support and calibrating its parameters to ensure, for example, a specific mean and variance.
+\end{itemize}
+\end{frame}
 
-Щом за наблюдаваните данни се приема, че са генерирани от някакъв
-вероятностен механизъм, а неизвестният параметър (параметри) на
-модела се третира като случайна величина поради използването на
-субективна вероятност, то за наличната извадка
-$\mathbf{x}=(x_1,\ldots,x_n)$ и за параметрите може да се
-разглежда съвместна функция на разпределение или, при допускането
-за абсолютна непрекъснатост, съвместна плътност. В нашия случай
-може да се разглежда съвместната плътност\footnote{Тук и по-долу
-за краткост изпускаме от записа наличието на известния $\sigma^2$,
-макар че строго погледнато съвместната плътност всъщност би
-трябвало да се запише като условна при условие $\sigma^2$ и
-останалата налична информация $\mathcal{I}$.} на $\mathbf{x}$ и
-$\mu$ $f(\mathbf{x},\mu)$. Тази постановка позволява да
-формализираме във вероятностни термини идеята за несигурността по
-отношение на стойностите на оценявания параметър, но не преодолява
-невъзможността да се възпроизвеждат данните от експеримента.
-Понеже повечето от практически интересните ситуации се занимават
-със случая, в който извадката $\mathbf{x}$ е фиксирана и е трудно
-или невъзможно да се получат още данни, релевантният обект за
-изследване е всъщност условната плътност на параметъра при условие
-наблюдаваните данни $f(\mu|\mathbf{x})$. Последната може да бъде
-получена с прилагане на формулата на Бейс във варианта \'и за
-плътности на разпределения на случайни величини: \beq
-\label{Bayesformula}
-f(\mu|\mathbf{x})=\frac{f(\mathbf{x},\mu)}{f(\mathbf{x})}=\frac{f(\mathbf{x}|\mu)f(\mu)}{f(\mathbf{x})}\eeq
-При зададена извадка $\mathbf{x}$ стойността на плътността
-$f(\mathbf{x})$ се превръща в известно число и съответно не влияе
-върху анализа на $\mu$, а само скалира другите членове в
-последното равенство на \eqref{Bayesformula}. Тогава формула
-\eqref{Bayesformula} може да бъде записана като \beq
-\label{BayesProportional}f(\mu|\mathbf{x})\propto
-f(\mathbf{x}|\mu)f(\mu), \eeq където $\propto$ е знак за
-пропорционалност.
+\begin{frame}[fragile]
+\frametitle{Some advantages and limitations of the Bayesian approach}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item Bayesian methods can alleviate small-sample problems where the data do not contain enough information to use a classical approach.
+\item Bayesian methods can be used to impose theoretically motivated constraints on model parameters.
+\item There is the risk that a strong prior will predetermine the outcome of an analysis. This means we can essentially force any result we want.
+\item Bayesian methods can be computationally demanding.
+\end{itemize}
+\end{frame}
 
-Записът \eqref{BayesProportional} на формулата на Бейс съдържа
-ключовите елементи за анализа. Членът $f(\mathbf{x}|\mu)$ е добре
-познатата ни функция на правдоподобие, която в разглеждания от нас
-пример се задава с \eqref{NormLik}. Членът $f(\mu)$ се нарича
-\emph{априорна плътност} на параметъра $\mu$. Априорната плътност
-съдържа предварителната (преди провеждане на експеримента)
-информация за стойнoстите на параметъра $\mu$. Тази информация
-може да отразява чисто субективни убеждения (подобно на дадените
-по-горе примери), но може да бъде формирана например и на база
-теоретични резултати или информация от подобни експерименти, които
-са били провеждани в миналото. Условната плътност
-$f(\mu|\mathbf{x})$ се нарича \emph{апостериорно разпределение} на
-$\mu$. Апостериорното разпределение посредством формулата на Бейс
-обединява експерименталната\footnote{При допускането, че функцията
-на правдоподобие адекватно обобщава експерименталната информация.
-Това допускане е известно като \emph{принцип на правдоподобието}.}
-и неексперименталната информация за стойностите на параметъра
-$\mu$ и именно оттам са влезли в употреба понятия като ,,бейсов
-анализ'' и ,,бейсова статистика''. Изразът в
-\eqref{BayesProportional} отдясно на знака за пропорционалност
-понякога се нарича \emph{ядро} на апостериорната плътност. Ясно е,
-че горните принципи остават в сила и за многомерния случай.
+\begin{frame}[fragile]
+\frametitle{How does it work?}
+\framesubtitle{Revisiting the $ \mu $ estimation example in a Bayesian framework}
+Let's go back to the example of estimating $ \mu $ from a sample of iid observations from a $N(\mu,\sigma^2)$ random variable with $ \sigma^2 $ known. \bigskip
 
-Формула \eqref{BayesProportional} може да се разглежда като
-формален механизъм за ревизиране на някаква извънекспериментална
-информация с помощта на емпирични данни. Алтернативно тя може да
-бъде интерпретирана и като начин в емпиричния статистически анализ
-да бъде вкарана допълнителна информация като теоретични резултати
-или експертен опит. И в двата случая основен проблем е как
-наличната информация да бъде кодирана с помощта на априорната
-плътност. За това съществуват различни варианти, по-сложните от
-които например са базирани на итеративни сесии с групи от
-експерти, чиито мнения последователно се ревизират и обобщават. В
-най-стандартния случай се действа по-просто, като се избира клас
-разпределения според типа параметър (например нормално за
-параметър без ограничения, гама за положителен параметър, бета за
-параметър между 0 и 1 и т.н.) и от този клас се избира
-представител с необходимите характеристики (например подходяща
-средна, която да отразява стойността на параметъра, считана от нас
-за най-достоверна, и подходяща дисперсия, която да отразява
-несигурността ни за достоверността на нашата преценка).
-
-Да илюстрираме изчислението на апостериорната плътност за
-разглеждания от нас пример за $N(\mu,\sigma^2)$. Функцията на
-правдоподобие \eqref{NormLik} съдържа израза \beq \label{NormLik1}
+The likelihood \eqref{eq:NormLik} contains the expression
+\begin{equation}
+\label{eq:NormLik1}
 \begin{split} \sum_{i=1}^{n}(x_i-\mu)^2= &
-\sum_{i=1}^{n}\left((x_i-\hat{\mu})-(\mu-\hat{\mu})\right)^2=\sum_{i=1}^{n}(x_i-\hat{\mu})^2-\sum_{i=1}^{n}2(x_i-\hat{\mu})(\mu-\hat{\mu})+n(\mu-\hat{\mu})^2\\=&\sum_{i=1}^{n}(x_i-\hat{\mu})^2-2(\mu-\hat{\mu})\underbrace{\sum_{i=1}^{n}(x_i-\hat{\mu})}_{0}+n(\mu-\hat{\mu})^2=\sum_{i=1}^{n}(x_i-\hat{\mu})^2+n(\mu-\hat{\mu})^2\\
-=& \nu s^2+n(\mu-\hat{\mu})^2,
-\end{split} \eeq където $\nu=n-1$ и
-$s^2=\nu^{-1}\sum_{i=1}^{n}(x_i-\hat{\mu})^2$. Следователно
-\eqref{NormLik} може да бъде записано като \beq \label{NormLik2}
-L(x_1,\ldots,x_n|\mu,\sigma^2)=\left( \frac{1}{2\pi\sigma^2}
+\sum_{i=1}^{n}\left((x_i-\hat{\mu})-(\mu-\hat{\mu})\right)^2\\
+=&\sum_{i=1}^{n}(x_i-\hat{\mu})^2-\sum_{i=1}^{n}2(x_i-\hat{\mu})(\mu-\hat{\mu})+n(\mu-\hat{\mu})^2\\=&\sum_{i=1}^{n}(x_i-\hat{\mu})^2-2(\mu-\hat{\mu})\underbrace{\sum_{i=1}^{n}(x_i-\hat{\mu})}_{0}+n(\mu-\hat{\mu})^2\\
+=&\sum_{i=1}^{n}(x_i-\hat{\mu})^2+n(\mu-\hat{\mu})^2 = \nu s^2+n(\mu-\hat{\mu})^2,
+\end{split}
+\end{equation}
+where $\nu=n-1$ and $s^2=\nu^{-1}\sum_{i=1}^{n}(x_i-\hat{\mu})^2$.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{How does it work?}
+\framesubtitle{Revisiting the $ \mu $ estimation example in a Bayesian framework}
+Therefore, the likelihood \eqref{eq:NormLik} can be written as
+\begin{equation}
+\label{eq:NormLik2}
+L(\mu,\sigma^2|x_1,\ldots,x_n)=\left( \frac{1}{2\pi\sigma^2}
 \right)^{n/2}\exp\left(-\frac{1}{2\sigma^2}\left(\nu
-s^2+n(\mu-\hat{\mu})^2\right)\right). \eeq Нека априорната ни
-информация за $\mu$ да се описва с помощта на априорната плътност
-\beq \label{NormPrior}
+s^2+n(\mu-\hat{\mu})^2\right)\right).
+\end{equation} \bigskip
+
+Suppose our prior information on $\mu$ can be summarised by the density
+\begin{equation}
+\label{eq:NormPrior}
 f(\mu)=\frac{1}{\sqrt{2\pi}\sigma^2_a}\exp\left(
--\frac{1}{2\sigma^2_a}(\mu-\mu_a)^2 \right), \eeq където $\mu_a$ е
-априорното очакване на изследователя, а $\sigma_a^2$ е априорната
-дисперсия. Тогава обединявайки \eqref{NormLik2} и
-\eqref{NormPrior} с помощта на \eqref{BayesProportional},
-получаваме \beq \label{NormPosterior} \begin{split}
+-\frac{1}{2\sigma^2_a}(\mu-\mu_a)^2 \right),
+\end{equation}
+where $\mu_a$ is the prior mean and $\sigma_a^2$ is the prior variance of the person conducting the analysis.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{How does it work?}
+\framesubtitle{Revisiting the $ \mu $ estimation example in a Bayesian framework}
+Combining \eqref{eq:NormLik2} and
+\eqref{eq:NormPrior} by means of \eqref{eq:BayesProportional},
+we obtain \begin{equation}
+\label{NormPosterior} \begin{split}
 f(\mu|\mathbf{x})\propto & \exp\left( -\frac{1}{2}\left[
 \frac{(\mu-\mu_a)^2}{\sigma_a^2}+\frac{n}{\sigma^2}(\mu-\hat{\mu})^2
 \right] \right) \\ \propto & \exp \left( -\left(
 \frac{\sigma_a^2+\sigma^2/n}{2\sigma^2_a\sigma^2/n} \right)\left(
 \mu-\frac{\hat{\mu}\sigma^2_a+\mu_a\frac{\sigma^2}{n}}{\sigma^2_a+\sigma^2/n}
-\right)^2 \right). \end{split} \eeq Следователно апостериорното
-разпределение на $\mu$ е нормално с очакване
+\right)^2 \right). \end{split}
+\end{equation}\bigskip
+
+Thus, the posterior distribution of $\mu$ is normal with mean
 $$\mathbb{E}[\mu]=\frac{\hat{\mu}\sigma^2_a+\mu_a\sigma^2/n}{\sigma^2_a+\sigma^2/n}=\frac{\hat{\mu}(\sigma^2/n)^{-1}+\mu_a(\sigma_a^2)^{-1}}{(\sigma^2/n)^{-1}+(\sigma^2_a)^{-1}}$$
-и дисперсия
+and variance
 $$\mathbb{D}[\mu]=\frac{\sigma^2_a\sigma^2/n}{\sigma^2_a+\sigma^2/n}=\frac{1}{(\sigma^2/n)^{-1}+(\sigma^2_a)^{-1}}.$$
+\end{frame}
 
-Ако въведем означенията $h_0=(\sigma^2/n)^{-1}$ и
-$h_a=(\sigma^2_a)^{-1}$, то $\mathbb{E}[\mu]=(\hat{\mu}h_0+\mu_a
-h_a)/(h_0+h_a)$ и $\mathbb{D}[\mu]=\frac{1}{h_0+h_a}$. Параметрите
-$h_0$ и $h_a$ се наричат \emph{параметри на точност}. Така
-очакването на апостериорното разпределение се оказва претеглена
-средна от извадъчната средна и априорното очакване.
+\begin{frame}[fragile]
+\frametitle{How does it work?}
+\framesubtitle{Revisiting the $ \mu $ estimation example in a Bayesian framework}
+The preceding result can be clarified if we introduce the notation $h_0=(\sigma^2/n)^{-1}$ and $h_a=(\sigma^2_a)^{-1}$. These are called \emph{precision parameters}. \bigskip
 
-\subsection{Бейсов анализ при повече от една извадка с данни}
+Then, we can equivalently write 
+\[ \mathbb{E}[\mu]=\dfrac{h_0\hat{\mu}+h_a\mu_a}{h_0+h_a}, \]  \[ \mathbb{D}[\mu]=\frac{1}{h_0+h_a}. \]\bigskip
 
-Теоремата на Бейс може да се използва и за последователно
-актуализиране на разполагаемата информация при получаване на нови
-извадки с данни. Ако от първоначалния експеримент сме имали
-извадка $\mathbf{x_1}$ и априорна плътност $f(\mu)$, то
-апостериорната плътност е $f(\mu|\mathbf{x_1}) \propto
-f(\mu)f(\mathbf{x_1}|\mu)$. Нека сме получили допълнителна
-извадъчна информация под формата на нови наблюдения
-$\mathbf{x_2}$. Тогава апостериорната плътност
-$f(\mu|\mathbf{x_1})$ може да се използва като априорна за новата
-извадка и с помощта на теоремата на Бейс получаваме \beq
-\label{Bayesupdate1} f(\mu|\mathbf{x_1},\mathbf{x_2}) \propto
-f(\mu|\mathbf{x_1})f(\mathbf{x_2}|\mu),\eeq където
-$f(\mu|\mathbf{x_1},\mathbf{x_2})$ означава апостериорната
-плътност, получена при обединяването на двете извадки. Формула
-\eqref{Bayesupdate1} може да бъде записана и като \beq
-\label{Bayesupdate2} f(\mu|\mathbf{x_1},\mathbf{x_2}) \propto
-f(\mu)f(\mathbf{x_1}|\mu)f(\mathbf{x_2}|\mu). \eeq Тъй като
-$f(\mathbf{x_1}|\mu)f(\mathbf{x_2}|\mu)$ е функцията на
-правдоподобие за $\mu$, основана на обединената информация от
-двете извадки $\mathbf{x_1}$ и $\mathbf{x_2}$, за новата
-апостериорна плътност се получава един и същи резултат, независимо
-дали сме получавали извадъчната информация последователно или още
-в началото сме получили пълната извадка $(\mathbf{x_1},
-\mathbf{x_2})$. Ясно е също, че тази процедура се обобщава
-директно за случая на повече от две извадки.
+In other words, the posterior mean turns out to be a weighted average of the sample mean and the prior mean.
+\end{frame}
+\end{section}
 
-\subsection{Маргинални и условни апостериорни плътности}
 
-Както беше отбелязано по-горе, бейсовият подход остава валиден и
-ако оценяваме вектор от параметри $\bs{\theta}$, като в този
-случай съвместната апостериорна плътност означаваме с
-$f(\bs{\theta}|\mathbf{x})$. При това положение могат да възникнат
-ситуации, когато ни интересува само някакво подмножество от
-параметрите $\bs{\theta}$, т.е. за
-$\bs{\theta}=\left(\bs{\theta_1'}:\bs{\theta_2'}\right)$ искаме да
-отделим само апостериорната информация за $\bs{\theta_1}$ или с
-други думи искаме да получим маргиналната апостериорна плътност на
-вектора $\bs{\theta_1}$. Тази маргинална апостериорна плътност
-може да бъде получена по следния начин: \beq
-\label{MargPost}f(\bs{\theta_1}|\mathbf{x})=\int_{R_{\bs{\theta_2}}}f(\bs{\theta_1},\bs{\theta_2}|\mathbf{x})d\bs{\theta_2}=\int_{R_{\bs{\theta_2}}}f(\bs{\theta_1}|\bs{\theta_2},\mathbf{x})f(\bs{\theta_2|\mathbf{x}})d\bs{\theta_2},
-\eeq където $R_{\bs{\theta_2}}$ означава областта на съществуване
-на $\bs{\theta_2}$, а $f(\bs{\theta_1}|\bs{\theta_2},\mathbf{x})$
-е условната апостериорна плътност на $\bs{\theta_1}$ при зададени
-$\bs{\theta_2}$ и $\mathbf{x}$. Изразът след второто равенство в
-\eqref{MargPost} показва, че маргиналната апостериорна плътност
-$f(\bs{\theta_1}|\mathbf{x})$ може да се разглежда като
-усредняване на стойностите на условната апостериорна плътност
-$f(\bs{\theta_1}|\bs{\theta_2},\mathbf{x})$ с използване на
-маргиналната апостериорна плътност за $\bs{\theta_2}$,
-$f(\bs{\theta_2}|\mathbf{x})$, като теглова функция. С помощта на
-интегрирането в \eqref{MargPost} елиминираме информацията за
-параметрите, които не ни интересуват, за да остане само
-апостериорната информация за релевантните параметри.
+\begin{section}{Extending the Bayesian approach}\label{sec:BayesExt}
 
-\subsection{Точкови оценки на параметри при бейсовия подход}
+\begin{frame}[fragile]
+\frametitle{Bayesian updating with new data}
+\begin{itemize}\itemsep1em
+\item We can use Bayes' theorem to update our information sequentially as new data arrive.
+\item Let the initial sample be $\mathbf{x_1}$ and the prior density be $f(\mu)$, leading to a posterior $f(\mu|\mathbf{x_1}) \propto
+f(\mu)f(\mathbf{x_1}|\mu)$.
+\item Suppose we obtain an additional sample $\mathbf{x_2}$.
+\item Then the posterior $f(\mu|\mathbf{x_1})$ can be treated as a prior with respect to the new sample and, using Bayes' theorem, we get
+\begin{equation}
+\label{eq:Bayesupdate1} f(\mu|\mathbf{x_1},\mathbf{x_2}) \propto
+f(\mu|\mathbf{x_1})f(\mathbf{x_2}|\mu),
+\end{equation} 
+where $f(\mu|\mathbf{x_1},\mathbf{x_2})$ is the posterior obtained with the two samples merged.
+\end{itemize}
+\end{frame}
 
-Макар че апостериорната плътност обобщава всичката информация за
-интересуващите ни параметри (извадъчна и извънекспериментална), с
-която разполагаме, често пъти е необходимо да можем да
-характеризираме неизвестните параметри с конкретни стойности, т.е.
-да получим точкови оценки за тези параметри. При наличието на
-апостериорната плътност като източник на информация за параметъра
-$\bs{\theta}$, за точковата оценка
-$\bs{\hat{\theta}}=\bs{\hat{\theta}}(\mathbf{x})$ е най-подходящо
-да бъде получена в контекста на теорията за вземане на решения.
-Съгласно принципите на тази теория изследователят трябва да има
-\emph{функция на загубите}, $L(\bs{\theta},\bs{\hat{\theta}})$,
-която да отразява колко ,,вредни'' са отклоненията на оценката
-$\bs{\hat{\theta}}$ от истинската стойност $\bs{\theta}$. Тъй като
-в нашия случай $\bs{\theta}$ се разглежда като случайна величина,
-съответно $L(\bs{\theta},\bs{\hat{\theta}})$ е също случайна,
-макар че наблюденията $\mathbf{x}$ са фиксирани.
+\begin{frame}[fragile]
+\frametitle{Bayesian updating with new data}
+\begin{itemize}\itemsep1em
+\item Formula \eqref{eq:Bayesupdate1} can also be written as 
+\begin{equation}
+\label{eq:Bayesupdate2} f(\mu|\mathbf{x_1},\mathbf{x_2}) \propto
+f(\mu)f(\mathbf{x_1}|\mu)f(\mathbf{x_2}|\mu).
+\end{equation}
+\item Since the likelihood function for the merged samples $\mathbf{x_1}$ and $\mathbf{x_2}$ is $f(\mathbf{x_1}|\mu)f(\mathbf{x_2}|\mu)$, the new posterior will be the same regardless of whether we obtain the samples sequentially or we have the full sample $(\mathbf{x_1},\mathbf{x_2})$ from the start.
+\item Clearly, this approach generalizes to the case of more than one sample.
+\end{itemize}
+\end{frame}
 
-Понеже апостериорната плътност отразява всичката налична
-информация за възможните изходи на $\bs{\theta}$, логично е да
-претеглим стойностите на функцията на загубите с апостериорната
-плътност, за да получим очакваната загуба при използването на
-конкретна точкова оценка $\bs{\hat{\theta}}$. При това положение
-оптималната точкова оценка е онази, която минимизира
-математическото очакване на функцията на загубите: \beq
+\begin{frame}[fragile]
+\frametitle{Marginal and conditional posterior densities}
+\begin{itemize}\itemsep1em
+\item As noted, the Bayesian approach works the same way when we are interested in a vector of parameters $\boldsymbol{\theta}$. In this context we denote the joint posterior density by $f(\boldsymbol{\theta}|\mathbf{x})$.
+\item In some cases we are interested only in a subset of the parameters $\boldsymbol{\theta}$, i.e. given $\boldsymbol{\theta}=\left(\boldsymbol{\theta_1},\boldsymbol{\theta_2}\right)'$, we would like to separate out the posterior information for $\boldsymbol{\theta_1}$ only.
+\item In other words, we are interested in the marginal posterior density of the vector $\boldsymbol{\theta_1}$.
+\item It can be obtained as \begin{equation}
+\label{eq:MargPost}f(\boldsymbol{\theta_1}|\mathbf{x}) = \int_{R_{\boldsymbol{\theta_2}}}f(\boldsymbol{\theta_1},\boldsymbol{\theta_2}|\mathbf{x})\,d\boldsymbol{\theta_2} = \int_{R_{\boldsymbol{\theta_2}}}f(\boldsymbol{\theta_1}|\boldsymbol{\theta_2},\mathbf{x})f(\boldsymbol{\theta_2|\mathbf{x}})\,d\boldsymbol{\theta_2},
+\end{equation}
+where $R_{\boldsymbol{\theta_2}}$ is the domain of $\boldsymbol{\theta_2}$ and $f(\boldsymbol{\theta_1}|\boldsymbol{\theta_2},\mathbf{x})$
+is the conditional posterior density of $\boldsymbol{\theta_1}$ for given
+$\boldsymbol{\theta_2}$ and $\mathbf{x}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Marginal and conditional posterior densities}
+\begin{itemize}\itemsep1em
+\item The expression following the second equality sign in \eqref{eq:MargPost}, \[ \int_{R_{\boldsymbol{\theta_2}}}f(\boldsymbol{\theta_1}|\boldsymbol{\theta_2},\mathbf{x})f(\boldsymbol{\theta_2|\mathbf{x}})\,d\boldsymbol{\theta_2}, \] shows that the marginal posterior density $f(\boldsymbol{\theta_1}|\mathbf{x})$ can be interpreted as the result of averaging the conditional posterior density $f(\boldsymbol{\theta_1}|\boldsymbol{\theta_2},\mathbf{x})$ by using the marginal posterior density $f(\boldsymbol{\theta_2}|\mathbf{x})$ as the weight function.
+\item The integration operation in \eqref{eq:MargPost} serves to eliminate the information on the parameters we are \textbf{not} interested in, leaving only the posterior information on the relevant parameters.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Point estimates in a Bayesian framework}
+\begin{itemize}\itemsep1em
+\item The posterior summarises all the available information (sample and non-sample) about the parameters of interest.
+\item The downside is that the posterior is ultimately a probability distribution, while we may need simpler characterizations of the parameters.
+\item One example is a situation where we want to produce specific numerical values for the unknown parameters, i.e. we want \emph{point estimates}.
+\item Once we have the posterior for the parameter vector $\boldsymbol{\theta}$, the Bayesian way using it to produce a point estimate $\boldsymbol{\hat{\theta}}=\boldsymbol{\hat{\theta}}(\mathbf{x})$ is in a decision-theoretic framework.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Point estimates in a Bayesian framework}
+\begin{itemize}\itemsep1em
+\item Decision theory requires us to have \emph{loss function} $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})$ that measures how ``harmful'' deviations of the estimates $\boldsymbol{\hat{\theta}}$ from the true value $\boldsymbol{\theta}$. 
+\item Since in our case $\boldsymbol{\theta}$ is a random variable, the loss function $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})$ will also be random, even though the sample $\mathbf{x}$ is fixed.
+\item Thus, we need to work with the expected loss function.
+\item Since the posterior summarizes the information on $\boldsymbol{\theta}$, it is natural to construct the expectation with respect to $ f(\boldsymbol{\theta}|\mathbf{x}) $.
+\item We are then in a position to compute the expected loss associated with an estimate $\boldsymbol{\hat{\theta}}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Point estimates in a Bayesian framework}
+\begin{itemize}\itemsep1em
+\item Then, the optimal point estimate would be the one that minimizes the expectation of the loss function: \begin{equation}
 \label{ExpLoss}
-\bs{\hat{\theta^*}}=\min_{\bs{\hat{\theta}}}\mathbb{E}[L(\bs{\theta},\bs{\hat{\theta}})]=\min_{\bs{\hat{\theta}}}\int_{R_{\bs{\theta}}}
-L(\bs{\theta},\bs{\hat{\theta}})f(\bs{\theta}|\mathbf{x})
-d\bs{\theta}. \eeq Очакването на функцията на загубите се нарича
-\emph{риск} или \emph{функция на риска}. Тук имплицитно се
-предполага, че очакването е крайно и че минимумът съществува.
+\boldsymbol{\hat{\theta^*}}=\min_{\boldsymbol{\hat{\theta}}}\mathbb{E}[L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})]=\min_{\boldsymbol{\hat{\theta}}}\int_{R_{\boldsymbol{\theta}}}
+L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})f(\boldsymbol{\theta}|\mathbf{x})
+d\boldsymbol{\theta}.
+\end{equation} 
+\item The expected loss function is called \emph{risk} or \emph{risk function}.
+\item We are implicitly assuming that both the expectation and the minimum exist.
+\end{itemize}
+\end{frame}
 
-Като пример за типа точкова оценка, която се получава при
-използване на конкретна функция на загубите, нека разгледаме
-квадратична функция на загубите
-$L(\bs{\theta},\bs{\hat{\theta}})=(\bs{\theta}-\bs{\hat{\theta}})'C(\bs{\theta}-\bs{\hat{\theta}})$,
-където $C$ е зададена положително определена симетрична матрица.
-Тогава апостериорното очакване на
-$L(\bs{\theta},\bs{\hat{\theta}})$ ще бъде \beq
-\label{QuadExpLoss}\begin{split}
-\mathbb{E}[L(\bs{\theta},\bs{\hat{\theta}})]=&\mathbb{E}[(\bs{\theta}-\bs{\hat{\theta}})'C(\bs{\theta}-\bs{\hat{\theta}})]\\=&\mathbb{E}[((\bs{\theta}-\mathbb{E}[\bs{\theta}])-(\bs{\hat{\theta}}-\mathbb{E}[\bs{\theta}]))'C((\bs{\theta}-\mathbb{E}[\bs{\theta}])-(\bs{\hat{\theta}}-\mathbb{E}[\bs{\theta}]))]\\=&\mathbb{E}[(\bs{\theta}-\mathbb{E}[\bs{\theta}])'C(\bs{\theta}-\mathbb{E}[\bs{\theta}])]+(\bs{\hat{\theta}}-\mathbb{E}[\bs{\theta}])'C(\bs{\hat{\theta}}-\mathbb{E}[\bs{\theta}]),
-\end{split} \eeq където в последното равенство вторият член от
-сумата е нестохастичен и излиза извън очакването. Същевременно
-именно вторият член зависи от $\bs{\hat{\theta}}$ и съответно
-минимумът на \eqref{QuadExpLoss} зависи само него. Ясно е, че за
-положително определена $C$ минимум се достига при
-$\bs{\hat{\theta^*}}=\mathbb{E}[\bs{\theta}]$. Тоест за
-квадратична функция на загубите оптималната точкова оценка се дава
-от математическото очакване на апостериорното разпределение.
+\begin{frame}[fragile]
+\frametitle{Point estimates in a Bayesian framework}
+\begin{itemize}\itemsep1em
+\item As an example, take the quadratic loss function $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})=(\boldsymbol{\theta}-\boldsymbol{\hat{\theta}})'C(\boldsymbol{\theta}-\boldsymbol{\hat{\theta}})$,
+where $C$ is a fixed symmetric positive definite matrix.
+\item Then the posterior expectation of $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})$ is 
+\begin{equation}
+\label{eq:QuadExpLoss}\begin{split}
+\mathbb{E}[L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})]=&\mathbb{E}[(\boldsymbol{\theta}-\boldsymbol{\hat{\theta}})'C(\boldsymbol{\theta}-\boldsymbol{\hat{\theta}})]\\=&\mathbb{E}[((\boldsymbol{\theta}-\mathbb{E}[\boldsymbol{\theta}])-(\boldsymbol{\hat{\theta}}-\mathbb{E}[\boldsymbol{\theta}]))'C((\boldsymbol{\theta}-\mathbb{E}[\boldsymbol{\theta}])-(\boldsymbol{\hat{\theta}}-\mathbb{E}[\boldsymbol{\theta}]))]\\=&\mathbb{E}[(\boldsymbol{\theta}-\mathbb{E}[\boldsymbol{\theta}])'C(\boldsymbol{\theta}-\mathbb{E}[\boldsymbol{\theta}])]+(\boldsymbol{\hat{\theta}}-\mathbb{E}[\boldsymbol{\theta}])'C(\boldsymbol{\hat{\theta}}-\mathbb{E}[\boldsymbol{\theta}]),
+\end{split}
+\end{equation}
+where the second term in the last equality is not stochastic and can be taken out of the expectation. (Note that in going from the second to the third line terms of the form $ \mathbb{E}[(\boldsymbol{\theta}-\mathbb{E}[\boldsymbol{\theta}])'C (\boldsymbol{\hat{\theta}}-\mathbb{E}[\boldsymbol{\theta}])] $ will disappear since $ \mathbb{E}[\boldsymbol{\theta}-\mathbb{E}[\boldsymbol{\theta}]] = \mathbf{0}  $.)
+\item At the same time, it is precisely the last term of  \eqref{eq:QuadExpLoss} that depends on $\boldsymbol{\hat{\theta}}$ and determines the minimum.
+\end{itemize}
+\end{frame}
 
-Аналогично при съответните условия може да се покаже, че за
-функция на загубите от вида
-$L(\bs{\theta},\bs{\hat{\theta}})=\|\bs{\theta}-\bs{\hat{\theta}}\|$
-(абсолютна грешка) оптималната точкова оценка е медианата на
-апостериорното разпределение. Ако функцията на загубите е от вида
-\begin{equation*} L(\bs{\theta},\bs{\hat{\theta}})=\left\{ \begin{aligned} &0,~\bs{\hat{\theta}}=\bs{\theta}\\ &1,~\bs{\hat{\theta}}\neq\bs{\theta} \end{aligned}\right.
-,\end{equation*} то оптималната точкова оценка е модата на
-апостериорното разпределение.
+\begin{frame}[fragile]
+\frametitle{Point estimates in a Bayesian framework}
+\begin{itemize}\itemsep1em
+\item Clearly for a positive definite $ C $ the minimum is attained at $\boldsymbol{\hat{\theta^*}}=\mathbb{E}[\boldsymbol{\theta}]$.
+\item Thus, for the quadratic loss function the optimal point estimate is given by the mean\footnote{Assuming it exists in the first place.} of the respective posterior distribution.\bigskip \pause
+\item As further examples, for a univariate parameter $ \theta $ and an absolute deviation loss function $L(\theta,\hat{\theta})=|\theta-\hat{\theta}|$ (plus technical assumptions), the optimal point estimate can be shown to be the median.
+\item A zero-one loss function of the form \begin{equation*} L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})=\left\{ \begin{aligned} &0,~\boldsymbol{\hat{\theta}}=\boldsymbol{\theta}\\ &1,~\boldsymbol{\hat{\theta}}\neq\boldsymbol{\theta} \end{aligned}\right.
+,\end{equation*} will yield a mode of the posterior as the optimal point estimate (again under technical assumptions).
+\end{itemize}
+\end{frame}
 
-\subsection{Бейсови области на достоверност}\label{BayesRegion}
+\begin{frame}[fragile]
+\frametitle{Bayesian credible regions}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item The Bayesian counterpart of a confidence interval is called a \emph{credible region}.
+\item If we have the posterior density $f(\boldsymbol{\theta}|\mathbf{x})$, we can compute the probability that the vector of parameters $\boldsymbol{\theta}$ belongs to a given subset $\bar{R}$ of the space of parameters:
+\begin{equation}
+\label{eq:CredReg} P(\boldsymbol{\theta}\in
+\bar{R}|\mathbf{x}) = \int_{\bar{R}}f(\boldsymbol{\theta} | \mathbf{x}) \, d\boldsymbol{\theta}.
+\end{equation}\pause
+\item We can also approach the problem from the opposite direction: for a fixed probability $P(\boldsymbol{\theta}\in \bar{R}|\mathbf{x})$, find a region $\bar{R}$ such that \eqref{eq:CredReg} holds.
+\item In general such a region will not be unique.
+\end{itemize}
+\end{frame}
 
-Бейсовият аналог на доверителните интервали в класическия анализ
-са т.нар. \emph{области на достоверност}. При положение, че
-разполагаме с апостериорната плътност $f(\bs{\theta}|\mathbf{x})$,
-можем да изчислим вероятността векторът на параметрите
-$\bs{\theta}$ да лежи в дадена подобласт $\bar{R}$ на
-параметричното пространство: \beq \label{CredReg} P(\bs{\theta}\in
-\bar{R}|\mathbf{x})=\int_{\bar{R}}f(\bs{\theta}|\mathbf{x})d\bs{\theta}.\eeq
+\begin{frame}[fragile]
+\frametitle{Bayesian credible regions}
+\begin{itemize}\itemsep1em
+\item If the posterior is unimodal, in some cases a unique credible region can be obtained by imposing an additional requirement known as \emph{highest posterior density}.
+\item This requirement is intuitively described along the lines ``the posterior density values over that region should not be smaller than those for any other region with the same probability''...
+\item ...but a more precise characterization would be related to the fact that they minimize the volume enclosed in the parameter space among all regions with the same probability.
+\item For example, a unimodal symmetric density in the case of one parameter would produce a credible region that is an interval centred on the mode and containing the largest values of the posterior density (or, equivalently, being the smallest in length).
+\end{itemize}
+\end{frame}
 
-Задачата може да бъде разгледана и в обратната формулировка: ако
-сме фиксирали вероятността $P(\bs{\theta}\in \bar{R}|\mathbf{x})$,
-да се намери област $\bar{R}$, за която \eqref{CredReg} е
-изпълнено. При това положение обаче за областта $\bar{R}$ не е
-гарантирано, че е единствена. Ако апостериорната плътност е
-унимодална, за някои случаи единствена бейсова област $\bar{R}$
-може да бъде получена като се наложи допълнителното изискване
-стойностите на апостериорната плътност за $\bar{R}$ да не бъдат
-по-малки, отколкото стойностите \'и за всяка друга област,
-удовлетворяваща \eqref{CredReg} за избраната вероятност
-(\emph{критерий за максимална апостериорна плътност}). За
-унимодална симетрична плътност в едномерния случай например
-областта на достоверност е интервал със среда, центрирана върху
-модата на разпределението, за който стойностите на апостериорната
-плътност са най-големи.
+\begin{frame}[fragile]
+\frametitle{Bayesian credible regions}
+\begin{itemize}\itemsep1em
+\item It should be remembered that, despite the superficial similarity, Bayesian credible regions are conceptually different from classical confidence intervals.
+\item A classical confidence interval is considered random and probabilistic statements relate to the probability that this random interval will cover the fixed (but unknown) value of the parameter of interest.
+\item In contrast, a Bayesian credible region is considered deterministic and probabilistic statements relate to the probability with which the random parameter of interest will fall in that pre-specified region.
+\end{itemize}
+\end{frame}
 
-Обръщаме специално внимание на факта, че интерпретацията на
-бейсовите области на достоверност е съвсем различна в сравнение с
-класическите доверителни интервали. В контекста на класическата
-статистика доверителният интервал е случаен, понеже зависи от
-реализациите на данните и съответно вероятностните твърдения се
-отнасят до вероятността, с която този случаен интервал ще покрие
-(неизвестната) стойност на параметъра. В бейсов контекст областта
-на достоверност е напълно детерминистична и вероятностните
-твърдения се отнасят до вероятността, с която случайният параметър
-попада във фиксираната област на достоверност.
+\begin{frame}[fragile]
+\frametitle{Marginal distribution of the observations}
+\framesubtitle{}
+\begin{itemize}\itemsep1em
+\item Sometimes we are interested in the marginal density of the observations $f(\mathbf{x})$.
+\item These can be derived as follows:
+\begin{equation}
+\label{eq:MargObs}f(\mathbf{x})=\int_{R_{\boldsymbol{\theta}}}f(\boldsymbol{\theta},\mathbf{x})d\boldsymbol{\theta}=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{x}|\boldsymbol{\theta})f(\boldsymbol{\theta})d\boldsymbol{\theta}.
+\end{equation}
+\item The expression after the second equality sign in \eqref{eq:MargObs} means that the marginal density can be viewed as averaging the likelihood function by using the prior density as a weighting function.
+\end{itemize}
+\end{frame}
 
-\subsection{Маргинални разпределения на наблюденията}
 
-За случаите, когато ни интересуват маргиналните плътности
-$f(\mathbf{x})$ на наблюденията, те могат да бъдат получени по
-следния начин: \beq
-\label{MargObs}f(\mathbf{x})=\int_{R_{\bs{\theta}}}f(\bs{\theta},\mathbf{x})d\bs{\theta}=\int_{R_{\bs{\theta}}}f(\mathbf{x}|\bs{\theta})f(\bs{\theta})d\bs{\theta}.\eeq
-Изразът след второто равенство в \eqref{MargObs} показва, че
-маргиналната плътност на наблюденията може да се разглежда като
-средна на функцията на правдоподобие при използване на априорната
-плътност като теглова функция.
+
+
+
+
+
+
+
+
+
+\end{section}
+
+\begin{section}{The linear regression model in a Bayesian framework}\label{sec:BayesLM}
+
+\end{section}
+
+
+\begin{frame}[fragile]
+\frametitle{Readings}
+Readings:\bigskip
+
+William H. Greene. \emph{Econometric Analysis}, $ 7^{\text{th}} $ edition. Chapter 16.\bigskip
+
+Additional readings:\bigskip
+
+Gary Koop. \emph{Bayesian Econometrics}. 2003. Wiley.
+\end{frame}
+
+\end{document}
+
+
 
 \subsection{Прогнозни плътности на разпределения}
 
@@ -509,13 +542,13 @@ $f(\mathbf{x})$ на наблюденията, те могат да бъдат �
 от важните въпроси е какво е разпределението на още ненаблюдавани
 събития $\mathbf{\tilde{x}}$. Разглеждаме съвместната плътност на
 нерегистрираните данни $\mathbf{\tilde{x}}$ и параметрите
-$\bs{\theta}$ при условие вече наблюдаваните данни $\mathbf{x}$:
+$\boldsymbol{\theta}$ при условие вече наблюдаваните данни $\mathbf{x}$:
 \beq \label{JntData}
-f(\mathbf{\tilde{x}},\bs{\theta}|\mathbf{x})=f(\mathbf{\tilde{x}}|\bs{\theta},\mathbf{x})f(\bs{\theta}|\mathbf{x}).
+f(\mathbf{\tilde{x}},\boldsymbol{\theta}|\mathbf{x})=f(\mathbf{\tilde{x}}|\boldsymbol{\theta},\mathbf{x})f(\boldsymbol{\theta}|\mathbf{x}).
 \eeq Тогава прогнозната плътност на $\mathbf{\tilde{x}}$ при
 условие $\mathbf{x}$ се получава след интегриране в
-\eqref{JntData} по $\bs{\theta}$: \beq \label{MargForec}
-f(\mathbf{\tilde{x}}|\mathbf{x})=\int_{R_{\bs{\theta}}}f(\mathbf{\tilde{x}},\bs{\theta}|\mathbf{x})d\bs{\theta}=\int_{R_{\bs{\theta}}}f(\mathbf{\tilde{x}}|\bs{\theta},\mathbf{x})f(\bs{\theta}|\mathbf{x})d\bs{\theta}.
+\eqref{JntData} по $\boldsymbol{\theta}$: \beq \label{MargForec}
+f(\mathbf{\tilde{x}}|\mathbf{x})=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{\tilde{x}},\boldsymbol{\theta}|\mathbf{x})d\boldsymbol{\theta}=\int_{R_{\boldsymbol{\theta}}}f(\mathbf{\tilde{x}}|\boldsymbol{\theta},\mathbf{x})f(\boldsymbol{\theta}|\mathbf{x})d\boldsymbol{\theta}.
 \eeq Последният израз в \eqref{MargForec} означава, че прогнозната
 плътност може да се интерпретира и като математическото очакване
 на условната прогнозна плътност по отношение на апостериорната
@@ -570,21 +603,21 @@ $\mathbf{\tilde{x}}$ да попаднат в дадена подобласт $\
 изследвания. В общия случай разглеждаме твърдения $H_0$ и $H_1$,
 които се отнасят до различни модели $M_0$ и $M_1$ за данните
 $\mathbf{x}$. За модел $M_i,~i=1,2,$ съответната функция на
-правдоподобие е $f_i(\mathbf{x}|\bs{\theta_i})$, а априорната
-плътност е $f_i(\bs{\theta_i})$. Тук долните индекси $i$ в
+правдоподобие е $f_i(\mathbf{x}|\boldsymbol{\theta_i})$, а априорната
+плътност е $f_i(\boldsymbol{\theta_i})$. Тук долните индекси $i$ в
 правдоподобията и априорните плътности са използвани, за да
 отчетем възможността да се сравняват хипотези за различни
 механизми на генериране на данните, съответно с различни априорни
 очаквания. Това не изключва възможността да се разглеждат
-по-прости случаи, например когато параметрите $\bs{\theta_0}$ и
-$\bs{\theta_1}$, в съответствие с хипотези $H_0$ и $H_1$ се
+по-прости случаи, например когато параметрите $\boldsymbol{\theta_0}$ и
+$\boldsymbol{\theta_1}$, в съответствие с хипотези $H_0$ и $H_1$ се
 изменят в различни области на едно и също параметрично
 пространство.
 
 При условие, че е верен модел $M_i$, маргиналната плътност на
 данните (\emph{маргинална функция на правдоподобие}) е \beq
 \label{MargLik}
-f(\mathbf{x}|M_i)=\int_{R_{\bs{\theta_i}}}f_i(\mathbf{x}|\bs{\theta_i})f_i(\bs{\theta_i})d\bs{\theta_i}.\eeq
+f(\mathbf{x}|M_i)=\int_{R_{\boldsymbol{\theta_i}}}f_i(\mathbf{x}|\boldsymbol{\theta_i})f_i(\boldsymbol{\theta_i})d\boldsymbol{\theta_i}.\eeq
 
 Тогава \emph{множител на Бейс} се дефинира като отношението между
 маргиналните функции на правдоподобие за двата модела: \beq
@@ -713,7 +746,7 @@ $\hat{H}_j$, за което съответната очаквана загуб�
 
 За целите на анализа разглеждаме познатия ни линеен регресионен
 модел \beq \label{LinRegMod}
-\mathbf{y}=X\bs{\beta}+\mathbf{e},\eeq където разполагаме с $T$
+\mathbf{y}=X\boldsymbol{\beta}+\mathbf{e},\eeq където разполагаме с $T$
 наблюдения и имаме $K$ параметъра. За матрицата $X$ предполагаме,
 че е нестохастична\footnote{В случая разсъжденията са аналогични и
 за стохастична $X$ при положение, че тя е независима от грешката
@@ -722,32 +755,32 @@ $\mathbf{e}\in N(\mathbf{0},\sigma^2 I_T)$.
 
 Функцията на правдоподобие за \eqref{LinRegMod} при допускането за
 нормалност на грешката е \beq \label{LRMLik} \ell
-(\mathbf{y}|\bs{\beta}, \sigma^2)=(2\pi \sigma^2)^{-T/2}\exp
+(\mathbf{y}|\boldsymbol{\beta}, \sigma^2)=(2\pi \sigma^2)^{-T/2}\exp
 \left[
--\frac{(\mathbf{y}-X\bs{\beta})'(\mathbf{y}-X\bs{\beta})}{2\sigma^2}
+-\frac{(\mathbf{y}-X\boldsymbol{\beta})'(\mathbf{y}-X\boldsymbol{\beta})}{2\sigma^2}
 \right]. \eeq Съгласно принципите на бейсовия анализ параметрите
-на модела $\bs{\beta}$ и $\sigma^2$ се разглеждат като случайни и
+на модела $\boldsymbol{\beta}$ и $\sigma^2$ се разглеждат като случайни и
 съответно за тях трябва да бъде зададена априорна плътност. За
 случая избираме следната априорна плътност (представена само с
 ядрото си): \beq
-\label{LRMPrior}f(\bs{\beta},\sigma)\propto\sigma^{-m}\exp\left[
--\frac{1}{2\sigma^2}[\eta+(\bs{\beta}-\bs{\mu})'\bs{\Psi}^{-1}(\bs{\beta}-\bs{\mu})]
-\right], \eeq където $m>K+1$, $\eta>0$ и $\bs{\Psi}$ е симетрична
+\label{LRMPrior}f(\boldsymbol{\beta},\sigma)\propto\sigma^{-m}\exp\left[
+-\frac{1}{2\sigma^2}[\eta+(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})]
+\right], \eeq където $m>K+1$, $\eta>0$ и $\boldsymbol{\Psi}$ е симетрична
 и положително определена. Тази априорна плътност е пример за
 спрегната плътност за съответната функция на правдоподобие.
 Изборът на \eqref{LRMPrior} за априорна плътност може да бъде
-изяснен по-добре, ако разложим $f(\bs{\beta},\sigma)$ като \beq
+изяснен по-добре, ако разложим $f(\boldsymbol{\beta},\sigma)$ като \beq
 \label{DecompLMRPrior}
-f(\bs{\beta},\sigma)=f(\bs{\beta}|\sigma)f(\sigma), \eeq където
+f(\boldsymbol{\beta},\sigma)=f(\boldsymbol{\beta}|\sigma)f(\sigma), \eeq където
 \beq
-\label{CondBeta}f(\bs{\beta}|\sigma)=\frac{1}{(2\pi)^{K/2}\sigma^K
-[\det (\bs{\Psi})]^{1/2}}\exp \left[
--\frac{1}{2\sigma^2}(\bs{\beta}-\bs{\mu})'\bs{\Psi}^{-1}(\bs{\beta}-\bs{\mu})\right]\eeq
+\label{CondBeta}f(\boldsymbol{\beta}|\sigma)=\frac{1}{(2\pi)^{K/2}\sigma^K
+[\det (\boldsymbol{\Psi})]^{1/2}}\exp \left[
+-\frac{1}{2\sigma^2}(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})\right]\eeq
 и \beq \label{SigmaPrior}f(\sigma)\propto \sigma^{-(m-K)}\exp
 \left[ -\frac{\eta}{2\sigma^2} \right],\quad \sigma>0. \eeq Тоест
-условно по $\sigma$ векторът $\bs{\beta}$ е многомерно нормално
-разпределен със средна $\bs{\mu}$ и ковариационна матрица
-$\sigma^2\bs{\Psi}$. Разпределението на $\sigma$, съответстващо на
+условно по $\sigma$ векторът $\boldsymbol{\beta}$ е многомерно нормално
+разпределен със средна $\boldsymbol{\mu}$ и ковариационна матрица
+$\sigma^2\boldsymbol{\Psi}$. Разпределението на $\sigma$, съответстващо на
 ядрото \eqref{SigmaPrior}, може да се получи като нелинейна
 трансформация на гама-разпределена случайна величина.
 
@@ -755,38 +788,38 @@ $\sigma^2\bs{\Psi}$. Разпределението на $\sigma$, съотве�
 функцията на правдоподобие \eqref{LRMLik} за апостериорното
 разпределение на разглеждания модел се получава следното ядро:
 \beq
-\label{LRMPost}\begin{split}f(\bs{\beta},\sigma|\mathbf{y})\propto
+\label{LRMPost}\begin{split}f(\boldsymbol{\beta},\sigma|\mathbf{y})\propto
 & \frac{1}{\sigma^{T+m}}\exp\left[
--\frac{1}{2\sigma^2}\left[(T-K)\hat{\sigma}^2+(\bs{\beta}-\mathbf{b})'X'X(\bs{\beta}-\mathbf{b})\right]
+-\frac{1}{2\sigma^2}\left[(T-K)\hat{\sigma}^2+(\boldsymbol{\beta}-\mathbf{b})'X'X(\boldsymbol{\beta}-\mathbf{b})\right]
 \right]\\& \times \exp \left[
--\frac{1}{2\sigma^2}\left[\eta+(\bs{\beta}-\bs{\mu})'\bs{\Psi}^{-1}(\bs{\beta}-\bs{\mu})\right]
+-\frac{1}{2\sigma^2}\left[\eta+(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})\right]
 \right], \end{split}\eeq където $\hat{\sigma}^2=RSS/(T-K)$ и
 $\mathbf{b}$ са оценките по МНМК за дисперсията и вектора на
 коефициентите. Алгебрично еквивалентен запис за ядрото в
 \eqref{LRMPost} е \beq
-\label{LRMPost1}f(\bs{\beta},\sigma|\mathbf{y})\propto\frac{1}{\sigma^{T+m}}\exp
+\label{LRMPost1}f(\boldsymbol{\beta},\sigma|\mathbf{y})\propto\frac{1}{\sigma^{T+m}}\exp
 \left[
--\frac{1}{2\sigma^2}[(\bs{\beta}-\bs{\beta_*})'(\bs{\Psi}^{-1}+X'X)(\bs{\beta}-\bs{\beta_*})+\xi]
+-\frac{1}{2\sigma^2}[(\boldsymbol{\beta}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})+\xi]
 \right], \eeq където
-$$\bs{\beta_*}=(\bs{\Psi}^{-1}+X'X)^{-1}(\bs{\Psi}^{-1}\bs{\mu}+X'X\mathbf{b})$$
+$$\boldsymbol{\beta_*}=(\boldsymbol{\Psi}^{-1}+X'X)^{-1}(\boldsymbol{\Psi}^{-1}\boldsymbol{\mu}+X'X\mathbf{b})$$
 и
-$$\xi=\eta+(T-K)\hat{\sigma}^2+\bs{\mu}'\bs{\Psi}^{-1}\bs{\mu}+\mathbf{b}'X'X\mathbf{b}-\bs{\beta_*}'(\bs{\Psi}^{-1}+X'X)\bs{\beta_*}.$$
+$$\xi=\eta+(T-K)\hat{\sigma}^2+\boldsymbol{\mu}'\boldsymbol{\Psi}^{-1}\boldsymbol{\mu}+\mathbf{b}'X'X\mathbf{b}-\boldsymbol{\beta_*}'(\boldsymbol{\Psi}^{-1}+X'X)\boldsymbol{\beta_*}.$$
 
-Маргиналното апостериорно разпределение за $\bs{\beta}$ може да
+Маргиналното апостериорно разпределение за $\boldsymbol{\beta}$ може да
 бъде получено стандартно, като \eqref{LRMPost1} се интегрира по
 $\sigma$. Неговото ядро има вида \beq
-\label{MargPostBeta}\begin{split} f(\bs{\beta}|\mathbf{y})\propto
+\label{MargPostBeta}\begin{split} f(\boldsymbol{\beta}|\mathbf{y})\propto
 & \left[ \xi +
-(\bs{\beta}-\bs{\beta_*})'(\bs{\Psi}^{-1}+X'X)(\bs{\beta}-\bs{\beta_*})
+(\boldsymbol{\beta}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})
 \right]^{-(T+m-1)/2}\\ \propto & \left[
-v+(\bs{\beta}-\bs{\beta_*})'\frac{v}{\xi}(\bs{\Psi}^{-1}+X'X)(\bs{\beta}-\bs{\beta_*})\right]^{-(v+K)/2},
+v+(\boldsymbol{\beta}-\boldsymbol{\beta_*})'\frac{v}{\xi}(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})\right]^{-(v+K)/2},
 \end{split}\eeq където $v=T+m-K-1$. Полученото ядро е от плътност
 на многомерно $t$-разпределение. Случаен вектор с такова
-разпределение ще има очакване $\bs{\beta_*}$ за $T+m-K>2$ и
+разпределение ще има очакване $\boldsymbol{\beta_*}$ за $T+m-K>2$ и
 ковариационна матрица $$\left( \frac{\xi}{T+m-K-3}
-\right)(\bs{\Psi}^{-1}+X'X)^{-1} \textrm{ за } T+m-K>3.$$ Ако сме
-означили $\mathbf{h}=\left[ \frac{v}{\xi}(\bs{\Psi}^{-1}+X'X)
-\right]$, то разпределението на $j$-тия компонент на $\bs{\beta}$,
+\right)(\boldsymbol{\Psi}^{-1}+X'X)^{-1} \textrm{ за } T+m-K>3.$$ Ако сме
+означили $\mathbf{h}=\left[ \frac{v}{\xi}(\boldsymbol{\Psi}^{-1}+X'X)
+\right]$, то разпределението на $j$-тия компонент на $\boldsymbol{\beta}$,
 $\beta_j$, може да се получи като се отчете, че
 $(\beta_j-\beta_{*j})/[h^{-1}(j,j)]^{1/2}$ има едномерно
 $t$-разпределение с $v$ степени на свобода. Тук означението в
@@ -797,13 +830,13 @@ $t$-разпределение с $v$ степени на свобода. Тук
 клас по отношение на линейни трансформации (с точност до смяна на
 параметрите на разпределението). Също така анализът на
 разглеждания модел може да стъпи на това, че \beq
-\label{QuadBeta}\frac{T+m-K-1}{K\xi}(\mathbf{B}-\bs{\beta_*})'(\bs{\Psi}^{-1}+X'X)(\mathbf{B}-\bs{\beta_*})\eeq
+\label{QuadBeta}\frac{T+m-K-1}{K\xi}(\mathbf{B}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\mathbf{B}-\boldsymbol{\beta_*})\eeq
 е разпределена като $F(K,v)$ случайна величина, където с
 $\mathbf{B}$ сме означили случаен вектор с ядро на плътността
 \eqref{MargPostBeta}. Аналогично, ако $C$ е матрица с размерност
 $J\times K$, то \beq \label{TransfQuadBeta}
-\frac{T+m-K-1}{J\xi}[C(\mathbf{B}-\bs{\beta_*})]'[C(\bs{\Psi}^{-1}+X'X)^{-1}C']^{-1}[C(\mathbf{B}-\bs{\beta_*})]
+\frac{T+m-K-1}{J\xi}[C(\mathbf{B}-\boldsymbol{\beta_*})]'[C(\boldsymbol{\Psi}^{-1}+X'X)^{-1}C']^{-1}[C(\mathbf{B}-\boldsymbol{\beta_*})]
 \eeq има $F(J,v)$ разпределение. С помощта на тези резултати могат
-да се правят изследвания на свойствата на $\bs{\beta}$,
+да се правят изследвания на свойствата на $\boldsymbol{\beta}$,
 включително да се строят бейсови области и да се проверяват
 хипотези.
