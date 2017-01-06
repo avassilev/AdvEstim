@@ -21,6 +21,7 @@
 \usetikzlibrary{matrix}
 
 \DeclareMathOperator*{\interior}{int}
+\DeclareMathOperator*{\rank}{rank}
 
 % Number theorem environments
 \setbeamertemplate{theorem}[ams style]
@@ -622,26 +623,179 @@ f(\mathbf{x}|M_i)=\int_{R_{\boldsymbol{\theta_i}}}f_i(\mathbf{x}|\boldsymbol{\th
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Additional information on Bayesian methods}
+\framesubtitle{Informative and non-informative priors}
+\begin{itemize}\itemsep1em
+\item Up to this point we implicitly assumed that the priors were chosen to reflect additional available information. That is, they were taken to be \emph{informative}.
+\item We can, however, imagine situations in which we lack non-experimental information, requiring a \emph{non-informative} prior.
+\item It is intuitive to treat the parameter values as equally probable in such cases.
+\item This approach seems natural but gives rise to technical difficulties.
+\item For example, attempting to use the uniform distribution as a prior for a continuous parameter either implicitly introduces information (if we define it over a finite interval, thus limiting the support of the distribution), or else leads to a divergent integral.
+\end{itemize}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Additional information on Bayesian methods}
+\framesubtitle{Informative and non-informative priors}
+\begin{itemize}\itemsep1em
+\item If a non-informative ``density'' (under the above definition) leads to a divergent integral, it obviously cannot be a proper probability density function.
+\item Nevertheless, we can agree to consider such priors if the resulting posteriors are proper, i.e. if they integrate to a finite quantity.
+\item Such situations can be construed as taking only sample information into account.
+\item In many cases this leads to results that coincide with the classical results for large enough samples. 
+\end{itemize}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Additional information on Bayesian methods}
+\framesubtitle{Simulation techniques: Markov chain Monte Carlo}
+\begin{itemize}\itemsep1em
+\item In a general formulation like ours, the posterior densities can take a huge variety of forms.
+\item In most cases closed-form solutions cannot be obtained and we need to resort to numerical methods.
+\item If the parameter space is high-dimensional, generating a random sample from the posterior or integrating it leads to serious computational difficulties.
+\item In the past, this problem was circumvented by using the so-called \emph{conjugate priors}, i.e. priors which lead to the posterior belonging to the same class of distributions. In addition, conjugate priors that were easy to study were favoured.
+\end{itemize}
+\end{frame}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{frame}[fragile]
+\frametitle{Additional information on Bayesian methods}
+\framesubtitle{Simulation techniques: Markov chain Monte Carlo}
+\begin{itemize}\itemsep1em
+\item With the growth of computing power over the past few decades, Bayesian methods have progressively gravitated towards a powerful class of numerical simulation methods known as Markov chain Monte Carlo (MCMC).
+\item The main idea of MCMC is to draw a large enough sample from a  Markov chain that asymptotically has the same distribution as the posterior. 
+\item The properties of that sample are then studied to learn about the posterior.
+\item Most contemporary empirical studies in a Bayesian framework employ some form of MCMC or similar methods.
+\end{itemize}
+\end{frame}
 \end{section}
 
+
 \begin{section}{The linear regression model in a Bayesian framework}\label{sec:BayesLM}
+
+\begin{frame}[fragile]
+\frametitle{Formulation}
+\framesubtitle{}
+We study the familiar regression model \begin{equation}
+\label{eq:LinRegMod}
+\mathbf{y}=X\boldsymbol{\beta}+\mathbf{e},
+\end{equation}
+where there are $T$ observations and $K$ parameters. We take the matrix $X$ to be non-stochastic (the same approach works for a stochastic $ X $ if it is independent of the error $\mathbf{e}$), and assume that $\rank(X)=K$ and
+$\mathbf{e}\in N(\mathbf{0},\sigma^2 I_T)$.\bigskip \bigskip
+
+The likelihood function for \eqref{eq:LinRegMod} under our normality assumption is \begin{equation}
+\label{eq:LRMLik} \ell
+(\mathbf{y}|\boldsymbol{\beta}, \sigma^2)=(2\pi \sigma^2)^{-T/2}\exp
+\left[
+-\frac{(\mathbf{y}-X\boldsymbol{\beta})'(\mathbf{y}-X\boldsymbol{\beta})}{2\sigma^2}
+\right].
+\end{equation} 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Formulation}
+\framesubtitle{}
+In accordance with Bayesian principles we take $\boldsymbol{\beta}$ and $\sigma^2$ as random and having a prior density $ f(\boldsymbol{\beta},\sigma) $ with the kernel given below: \begin{equation}
+\label{eq:LRMPrior}f(\boldsymbol{\beta},\sigma)\propto\sigma^{-m}\exp\left[
+-\frac{1}{2\sigma^2}[\eta+(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})]
+\right],
+\end{equation}
+where $m>K+1$, $\eta>0$ and $\boldsymbol{\Psi}$ is symmetric and positive definite.\bigskip \bigskip
+
+This is an example of a conjugate prior.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Interpretation of the prior}
+\framesubtitle{}
+The choice of \eqref{eq:LRMPrior} as our prior can be understood if we consider the decomposition of $f(\boldsymbol{\beta},\sigma)$ as \begin{equation}
+\label{eq:DecompLMRPrior}
+f(\boldsymbol{\beta},\sigma)=f(\boldsymbol{\beta}|\sigma)f(\sigma),
+\end{equation} 
+where
+\begin{equation}
+\label{eq:CondBeta}f(\boldsymbol{\beta}|\sigma)=\frac{1}{(2\pi)^{K/2}\sigma^K
+[\det (\boldsymbol{\Psi})]^{1/2}}\exp \left[
+-\frac{1}{2\sigma^2}(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})\right]
+\end{equation} and 
+\begin{equation}
+\label{eq:SigmaPrior}f(\sigma)\propto \sigma^{-(m-K)}\exp
+\left[ -\frac{\eta}{2\sigma^2} \right],\quad \sigma>0.
+\end{equation}\bigskip
+
+In other words, conditional on $\sigma$, the vector $\boldsymbol{\beta}$ is multivariate normal with mean  $\boldsymbol{\mu}$ and covariance matrix $\sigma^2\boldsymbol{\Psi}$. The distribution of $\sigma$ that corresponds to the kernel \eqref{eq:SigmaPrior} can be obtained as a nonlinear transformation of a gamma-distributed random variable.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The posterior}
+\framesubtitle{}
+Given the prior \eqref{eq:LRMPrior} and the likelihood \eqref{eq:LRMLik} the posterior of the model can be shown to be \begin{equation}
+\label{eq:LRMPost}\begin{split}f(\boldsymbol{\beta},\sigma|\mathbf{y})\propto
+& \frac{1}{\sigma^{T+m}}\exp\left[
+-\frac{1}{2\sigma^2}\left[(T-K)\hat{\sigma}^2+(\boldsymbol{\beta}-\mathbf{b})'X'X(\boldsymbol{\beta}-\mathbf{b})\right]
+\right]\\& \times \exp \left[
+-\frac{1}{2\sigma^2}\left[\eta+(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})\right]
+\right], \end{split}
+\end{equation}
+where $\hat{\sigma}^2=RSS/(T-K)$ and
+$\mathbf{b}$ are the OLS estimates for the variance and the coefficient vector.
+
+The kernel \eqref{eq:LRMPost} can be written equivalently as
+\begin{equation}
+\label{eq:LRMPost1}f(\boldsymbol{\beta},\sigma|\mathbf{y})\propto\frac{1}{\sigma^{T+m}}\exp \left[ -\frac{1}{2\sigma^2}[(\boldsymbol{\beta}-\boldsymbol{\beta_*})' (\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})+\xi]\right],
+\end{equation}
+where \begin{align*}
+&\boldsymbol{\beta_*} = (\boldsymbol{\Psi}^{-1}+X'X)^{-1}(\boldsymbol{\Psi}^{-1} \boldsymbol{\mu}+X'X\mathbf{b}),\\
+&\xi = \eta+(T-K)\hat{\sigma}^2+\boldsymbol{\mu}'\boldsymbol{\Psi}^{-1} \boldsymbol{\mu}+\mathbf{b}'X'X\mathbf{b}-\boldsymbol{\beta_*}'(\boldsymbol{\Psi}^{-1}+X'X)\boldsymbol{\beta_*}.
+\end{align*}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The posterior}
+\framesubtitle{}
+The marginal posterior density for $\boldsymbol{\beta}$ can be obtained in a standard manner by integrating \eqref{eq:LRMPost1} w.r.t.
+$\sigma$. It has the kernel \begin{equation}
+\label{eq:MargPostBeta}\begin{split} f(\boldsymbol{\beta}|\mathbf{y})\propto
+& \left[ \xi +
+(\boldsymbol{\beta}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})
+\right]^{-(T+m-1)/2}\\ \propto & \left[
+v+(\boldsymbol{\beta}-\boldsymbol{\beta_*})'\frac{v}{\xi}(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})\right]^{-(v+K)/2},
+\end{split}
+\end{equation} 
+where $v=T+m-K-1$. \bigskip \bigskip
+
+This is the kernel of a multivariate $t$-distribution. 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The posterior}
+\framesubtitle{}
+A random vector distributed with kernel \eqref{eq:MargPostBeta} will have mean $\boldsymbol{\beta_*}$ for $T+m-K>2$ and covariance matrix $$\left( \frac{\xi}{T+m-K-3}
+\right)(\boldsymbol{\Psi}^{-1}+X'X)^{-1} \textrm{ за } T+m-K>3.$$ \bigskip \bigskip
+
+If we denote $\mathbf{h}=\left[ \frac{v}{\xi}(\boldsymbol{\Psi}^{-1}+X'X)
+\right]$, then the distribution of the $j$-th element of $\boldsymbol{\beta}$,
+$\beta_j$, can be obtained by taking into account that 
+$(\beta_j-\beta_{*j})/[h^{-1}(j,j)]^{1/2}$ has univariate $t$-distribution with $v$ degrees of freedom. The notation in the denominator stands for the square root of the $j$-th diagonal element of the matrix $\mathbf{h}^{-1}$.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The posterior}
+\framesubtitle{}
+It can be shown that the multivariate $t$-distribution forms a class that is closed with respect to linear transformations (up to a change in the parameters of the distribution). 
+
+We can also use the fact that \begin{equation*}
+%\label{eq:QuadBeta}
+\frac{T+m-K-1}{K\xi}(\mathbf{B}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\mathbf{B}-\boldsymbol{\beta_*})~\sim~F(K,v),
+\end{equation*} 
+where $\mathbf{B}$ denotes a random vector with density kernel \eqref{eq:MargPostBeta}. 
+
+Similarly, if $C$ is a $J\times K$ matrix, then \begin{equation*}
+%\label{eq:TransfQuadBeta}
+\frac{T+m-K-1}{J\xi}[C(\mathbf{B}-\boldsymbol{\beta_*})]'[C(\boldsymbol{\Psi}^{-1}+X'X)^{-1}C']^{-1}[C(\mathbf{B}-\boldsymbol{\beta_*})]~\sim~ F(J,v).
+\end{equation*}
+
+This can be used to study the properties of $\boldsymbol{\beta}$, including to construct Bayesian credible regions and test hypotheses.
+\end{frame}
 
 \end{section}
 
@@ -650,194 +804,13 @@ f(\mathbf{x}|M_i)=\int_{R_{\boldsymbol{\theta_i}}}f_i(\mathbf{x}|\boldsymbol{\th
 \frametitle{Readings}
 Readings:\bigskip
 
-William H. Greene. \emph{Econometric Analysis}, $ 7^{\text{th}} $ edition. Chapter 16.\bigskip
+William H. Greene. \emph{Econometric Analysis}, $ 7^{\text{th}} $ edition. Chapter 16.\bigskip \bigskip
 
 Additional readings:\bigskip
 
 Gary Koop. \emph{Bayesian Econometrics}. 2003. Wiley.
+\bigskip
+
+Allen Downey. \emph{Think Bayes: Bayesian Statistics in Python}.
 \end{frame}
-
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{Някои общи бележки върху бейсовите методи}
-
-\subsubsection{Информативни и неинформативни априорни плътности}
-
-Дотук в изложението приемахме, че априорните плътности са избрани
-така, че да отразяват наличната неекспериментална информация. В
-този смисъл тези плътности могат да бъдат наречени
-\emph{информативни}. Можем да си зададем въпроса как да провеждаме
-бейсовия анализ в ситуации, за които не разполагаме с
-предварителна информация. Интуитивно е да се приеме, че в такива
-случаи различните възможни стойности на изследваните параметри са
-равновероятни. За съжаление подобна трактовка води до проблеми в
-непрекъснатия случай: ако например сме решили да изберем
-априорната плътност като плътност на равномерно разпределение в
-някакъв интервал, тогава фиксирането на носителя на равномерното
-разпределение всъщност представлява вкарване на информация в
-анализа, доколкото извън него слагаме вероятност нула на
-съответните стойности на параметъра. При това положение понятието
-за \emph{неинформативна} плътност става проблематично. Може да се
-покаже, че при налагането на определени изисквания за
-неинформативност плътностите, които отговарят на тях са
-несобствени в смисъл, че те не се интегрират до крайно число.
-
-При положение, че интеграл от неинформативна ,,плътност'' е
-разходящ, такъв обект разбира се не се явява плътност на
-вероятностно разпределение в истинския смисъл на думата. Въпреки
-всичко функции с такива свойства могат да бъдат полезни, ако
-апостериорната плътност остава истинска вероятностна плътност или,
-с други думи, ако ядрото \'и е с краен интеграл. Тогава бейсовият
-анализ може да бъде провеждан и съответно изводите от него ще
-бъдат само на база информация, получена от наблюдаваните данни.
-Често пъти изводи или оценки, получени при използването на
-неинформативни априорни плътности за достатъчно големи извадки
-съвпадат с тези, получени от класическия статистически анализ.
-Макар че тук няма да разглеждаме бейсов анализ с неинформативни
-плътности, заради пълнотата на изложението отбелязваме това важно
-направление в бейсовата статистика.
-
-\subsubsection{Монте Карло симулации с марковски вериги}
-
-Ясно е, че при степента на общност на горните резултати изборът на
-априорна плътност и на функция на правдоподобие може да води до
-най-разнообразни апостериорни плътности. В повечето случаи тези
-апостериорни плътности не могат да бъдат изследвани аналитично и
-се налага да се прибегне до численото им изследване. За съжаление
-в случаите на многомерни параметри обработката на тези плътности
-дори с помощта на мощни компютри е затруднена, доколкото
-симулирането на случайни извадки от тях или интегрирането им
-създават големи изчислителни затруднения при използването на
-стандартни числени методи. В миналото този проблем е бил
-заобикалян с помощта на т.нар. \emph{спрегнати} априорни
-плътности, т.е. априорни плътности, за които получената
-апостериорна плътност е от същия клас. Избирани са били спрегнати
-плътности, които са достатъчно лесни за аналитично изследване или
-числена обработка.
-
-С навлизането на достатъчно мощна изчислителна техника през
-последните 20 години бейсовият анализ започва да използва клас от
-методи за числено симулиране, известни като \emph{Монте Карло
-симулации с марковски вериги (МКСМВ)}\footnote{Английският термин
-е \emph{Markov Chain Monte Carlo (MCMC)}.}. Те са силно интензивни
-от изчислителна гледна точка, но са особено ефективни за целите на
-бейсовия анализ. Основната идея на тези методи е да се симулира
-достатъчно голяма извадка от апостериорната плътност като
-реализация от подходящо построена марковска верига. След това
-анализът на свойствата на апостериорното разпределение се прави на
-основата на така генерираната извадка. Обръщаме внимание, че
-повечето от бейсовите резултати, които могат да бъдат намерени в
-специализираната литература, са получени именно с помощта на
-МКСМВ, а не аналитично.
-
-\section{Бейсов иконометричен анализ на линейния регресионен модел}
-
-За целите на анализа разглеждаме познатия ни линеен регресионен
-модел \beq \label{LinRegMod}
-\mathbf{y}=X\boldsymbol{\beta}+\mathbf{e},\eeq където разполагаме с $T$
-наблюдения и имаме $K$ параметъра. За матрицата $X$ предполагаме,
-че е нестохастична\footnote{В случая разсъжденията са аналогични и
-за стохастична $X$ при положение, че тя е независима от грешката
-$\mathbf{e}$.} и е изпълнено $rank(X)=K$, а за грешката
-$\mathbf{e}\in N(\mathbf{0},\sigma^2 I_T)$.
-
-Функцията на правдоподобие за \eqref{LinRegMod} при допускането за
-нормалност на грешката е \beq \label{LRMLik} \ell
-(\mathbf{y}|\boldsymbol{\beta}, \sigma^2)=(2\pi \sigma^2)^{-T/2}\exp
-\left[
--\frac{(\mathbf{y}-X\boldsymbol{\beta})'(\mathbf{y}-X\boldsymbol{\beta})}{2\sigma^2}
-\right]. \eeq Съгласно принципите на бейсовия анализ параметрите
-на модела $\boldsymbol{\beta}$ и $\sigma^2$ се разглеждат като случайни и
-съответно за тях трябва да бъде зададена априорна плътност. За
-случая избираме следната априорна плътност (представена само с
-ядрото си): \beq
-\label{LRMPrior}f(\boldsymbol{\beta},\sigma)\propto\sigma^{-m}\exp\left[
--\frac{1}{2\sigma^2}[\eta+(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})]
-\right], \eeq където $m>K+1$, $\eta>0$ и $\boldsymbol{\Psi}$ е симетрична
-и положително определена. Тази априорна плътност е пример за
-спрегната плътност за съответната функция на правдоподобие.
-Изборът на \eqref{LRMPrior} за априорна плътност може да бъде
-изяснен по-добре, ако разложим $f(\boldsymbol{\beta},\sigma)$ като \beq
-\label{DecompLMRPrior}
-f(\boldsymbol{\beta},\sigma)=f(\boldsymbol{\beta}|\sigma)f(\sigma), \eeq където
-\beq
-\label{CondBeta}f(\boldsymbol{\beta}|\sigma)=\frac{1}{(2\pi)^{K/2}\sigma^K
-[\det (\boldsymbol{\Psi})]^{1/2}}\exp \left[
--\frac{1}{2\sigma^2}(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})\right]\eeq
-и \beq \label{SigmaPrior}f(\sigma)\propto \sigma^{-(m-K)}\exp
-\left[ -\frac{\eta}{2\sigma^2} \right],\quad \sigma>0. \eeq Тоест
-условно по $\sigma$ векторът $\boldsymbol{\beta}$ е многомерно нормално
-разпределен със средна $\boldsymbol{\mu}$ и ковариационна матрица
-$\sigma^2\boldsymbol{\Psi}$. Разпределението на $\sigma$, съответстващо на
-ядрото \eqref{SigmaPrior}, може да се получи като нелинейна
-трансформация на гама-разпределена случайна величина.
-
-При използването на априорната плътност \eqref{LRMPrior} и
-функцията на правдоподобие \eqref{LRMLik} за апостериорното
-разпределение на разглеждания модел се получава следното ядро:
-\beq
-\label{LRMPost}\begin{split}f(\boldsymbol{\beta},\sigma|\mathbf{y})\propto
-& \frac{1}{\sigma^{T+m}}\exp\left[
--\frac{1}{2\sigma^2}\left[(T-K)\hat{\sigma}^2+(\boldsymbol{\beta}-\mathbf{b})'X'X(\boldsymbol{\beta}-\mathbf{b})\right]
-\right]\\& \times \exp \left[
--\frac{1}{2\sigma^2}\left[\eta+(\boldsymbol{\beta}-\boldsymbol{\mu})'\boldsymbol{\Psi}^{-1}(\boldsymbol{\beta}-\boldsymbol{\mu})\right]
-\right], \end{split}\eeq където $\hat{\sigma}^2=RSS/(T-K)$ и
-$\mathbf{b}$ са оценките по МНМК за дисперсията и вектора на
-коефициентите. Алгебрично еквивалентен запис за ядрото в
-\eqref{LRMPost} е \beq
-\label{LRMPost1}f(\boldsymbol{\beta},\sigma|\mathbf{y})\propto\frac{1}{\sigma^{T+m}}\exp
-\left[
--\frac{1}{2\sigma^2}[(\boldsymbol{\beta}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})+\xi]
-\right], \eeq където
-$$\boldsymbol{\beta_*}=(\boldsymbol{\Psi}^{-1}+X'X)^{-1}(\boldsymbol{\Psi}^{-1}\boldsymbol{\mu}+X'X\mathbf{b})$$
-и
-$$\xi=\eta+(T-K)\hat{\sigma}^2+\boldsymbol{\mu}'\boldsymbol{\Psi}^{-1}\boldsymbol{\mu}+\mathbf{b}'X'X\mathbf{b}-\boldsymbol{\beta_*}'(\boldsymbol{\Psi}^{-1}+X'X)\boldsymbol{\beta_*}.$$
-
-Маргиналното апостериорно разпределение за $\boldsymbol{\beta}$ може да
-бъде получено стандартно, като \eqref{LRMPost1} се интегрира по
-$\sigma$. Неговото ядро има вида \beq
-\label{MargPostBeta}\begin{split} f(\boldsymbol{\beta}|\mathbf{y})\propto
-& \left[ \xi +
-(\boldsymbol{\beta}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})
-\right]^{-(T+m-1)/2}\\ \propto & \left[
-v+(\boldsymbol{\beta}-\boldsymbol{\beta_*})'\frac{v}{\xi}(\boldsymbol{\Psi}^{-1}+X'X)(\boldsymbol{\beta}-\boldsymbol{\beta_*})\right]^{-(v+K)/2},
-\end{split}\eeq където $v=T+m-K-1$. Полученото ядро е от плътност
-на многомерно $t$-разпределение. Случаен вектор с такова
-разпределение ще има очакване $\boldsymbol{\beta_*}$ за $T+m-K>2$ и
-ковариационна матрица $$\left( \frac{\xi}{T+m-K-3}
-\right)(\boldsymbol{\Psi}^{-1}+X'X)^{-1} \textrm{ за } T+m-K>3.$$ Ако сме
-означили $\mathbf{h}=\left[ \frac{v}{\xi}(\boldsymbol{\Psi}^{-1}+X'X)
-\right]$, то разпределението на $j$-тия компонент на $\boldsymbol{\beta}$,
-$\beta_j$, може да се получи като се отчете, че
-$(\beta_j-\beta_{*j})/[h^{-1}(j,j)]^{1/2}$ има едномерно
-$t$-разпределение с $v$ степени на свобода. Тук означението в
-знаменателя е използвано за корен квадратен от $j$-тия диагонален
-елемент на матрицата $\mathbf{h}^{-1}$.
-
-Може да се покаже, че многомерното $t$-разпределение е затворен
-клас по отношение на линейни трансформации (с точност до смяна на
-параметрите на разпределението). Също така анализът на
-разглеждания модел може да стъпи на това, че \beq
-\label{QuadBeta}\frac{T+m-K-1}{K\xi}(\mathbf{B}-\boldsymbol{\beta_*})'(\boldsymbol{\Psi}^{-1}+X'X)(\mathbf{B}-\boldsymbol{\beta_*})\eeq
-е разпределена като $F(K,v)$ случайна величина, където с
-$\mathbf{B}$ сме означили случаен вектор с ядро на плътността
-\eqref{MargPostBeta}. Аналогично, ако $C$ е матрица с размерност
-$J\times K$, то \beq \label{TransfQuadBeta}
-\frac{T+m-K-1}{J\xi}[C(\mathbf{B}-\boldsymbol{\beta_*})]'[C(\boldsymbol{\Psi}^{-1}+X'X)^{-1}C']^{-1}[C(\mathbf{B}-\boldsymbol{\beta_*})]
-\eeq има $F(J,v)$ разпределение. С помощта на тези резултати могат
-да се правят изследвания на свойствата на $\boldsymbol{\beta}$,
-включително да се строят бейсови области и да се проверяват
-хипотези.
