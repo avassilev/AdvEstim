@@ -402,14 +402,14 @@ $\boldsymbol{\theta_2}$ and $\mathbf{x}$.
 \item The posterior summarises all the available information (sample and non-sample) about the parameters of interest.
 \item The downside is that the posterior is ultimately a probability distribution, while we may need simpler characterizations of the parameters.
 \item One example is a situation where we want to produce specific numerical values for the unknown parameters, i.e. we want \emph{point estimates}.
-\item Once we have the posterior for the parameter vector $\boldsymbol{\theta}$, the Bayesian way using it to produce a point estimate $\boldsymbol{\hat{\theta}}=\boldsymbol{\hat{\theta}}(\mathbf{x})$ is in a decision-theoretic framework.
+\item Once we have the posterior for the parameter vector $\boldsymbol{\theta}$, the Bayesian way of using it to produce a point estimate $\boldsymbol{\hat{\theta}}=\boldsymbol{\hat{\theta}}(\mathbf{x})$ is in a decision-theoretic framework.
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Point estimates in a Bayesian framework}
 \begin{itemize}\itemsep1em
-\item Decision theory requires us to have \emph{loss function} $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})$ that measures how ``harmful'' deviations of the estimates $\boldsymbol{\hat{\theta}}$ from the true value $\boldsymbol{\theta}$. 
+\item Decision theory requires us to have \emph{loss function} $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})$ that measures how ``harmful'' deviations of the estimates $\boldsymbol{\hat{\theta}}$ from the true value $\boldsymbol{\theta}$ are. 
 \item Since in our case $\boldsymbol{\theta}$ is a random variable, the loss function $L(\boldsymbol{\theta},\boldsymbol{\hat{\theta}})$ will also be random, even though the sample $\mathbf{x}$ is fixed.
 \item Thus, we need to work with the expected loss function.
 \item Since the posterior summarizes the information on $\boldsymbol{\theta}$, it is natural to construct the expectation with respect to $ f(\boldsymbol{\theta}|\mathbf{x}) $.
